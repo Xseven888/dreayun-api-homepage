@@ -1,0 +1,525 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>即云API（DreaYunAPI）｜大模型API中转站与AI接口聚合平台</title>
+  <meta name="description" content="即云API（DreaYunAPI），又称即云AI、即云，是面向开发者与企业的大模型API中转站和AI接口聚合平台，提供统一入口、OpenAI兼容接口与清晰的模型接入体验。">
+  <meta name="keywords" content="即云API,即云AI,即云,DreaYunAPI,大模型API,API中转站,API中转,AI接口聚合,OpenAI兼容接口,多模型API,AI开发平台,GPT API,Claude API,Gemini API,AI视频API">
+  <meta name="robots" content="index,follow,max-image-preview:large,max-snippet:-1,max-video-preview:-1">
+  <meta name="author" content="即云API（DreaYunAPI）">
+  <link rel="canonical" href="https://api.dreayun.com/">
+  <meta name="theme-color" content="#090d26">
+  <link rel="icon" type="image/png" href="./b2b80378c408.png">
+  <link rel="apple-touch-icon" href="./b2b80378c408.png">
+  <meta property="og:type" content="website">
+  <meta property="og:locale" content="zh_CN">
+  <meta property="og:site_name" content="即云API（DreaYunAPI）">
+  <meta property="og:title" content="即云API（DreaYunAPI）｜大模型API中转站与AI接口聚合平台">
+  <meta property="og:description" content="一个入口连接多种AI能力。即云API为个人开发者与企业提供清晰、统一的模型接入体验。">
+  <meta property="og:url" content="https://api.dreayun.com/">
+  <meta property="og:image" content="https://image.zhongzhuan.chat/2026/09/b2b80378c408.png">
+  <meta property="og:image:alt" content="即云API品牌 Logo">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="即云API（DreaYunAPI）｜大模型API中转站">
+  <meta name="twitter:description" content="即云AI、即云与DreaYunAPI，为开发者提供统一的大模型API接入体验。">
+  <meta name="twitter:image" content="https://image.zhongzhuan.chat/2026/09/b2b80378c408.png">
+  <style>
+    :root {
+      --bg: #080b22;
+      --bg-deep: #050716;
+      --panel: rgba(16, 22, 59, .68);
+      --panel-strong: rgba(20, 28, 76, .9);
+      --text: #f4f7ff;
+      --muted: #aeb9d8;
+      --subtle: #7886ae;
+      --line: rgba(175, 204, 255, .17);
+      --cyan: #78e7ff;
+      --blue: #819bff;
+      --violet: #b697ff;
+      --pink: #ff9fd8;
+      --green: #74efb2;
+      --gold: #ffd98a;
+      --shadow: 0 28px 90px rgba(0, 0, 0, .32);
+      --radius: 28px;
+      --max: 1180px;
+    }
+    * { box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    body {
+      margin: 0;
+      color: var(--text);
+      background: var(--bg);
+      font-family: Inter, "PingFang SC", "Microsoft YaHei", system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      line-height: 1.7;
+      overflow-x: hidden;
+    }
+    body.light {
+      --bg: #f5f7ff;
+      --bg-deep: #eef2ff;
+      --panel: rgba(255, 255, 255, .76);
+      --panel-strong: rgba(255, 255, 255, .92);
+      --text: #151a3a;
+      --muted: #5d688a;
+      --subtle: #7e87a4;
+      --line: rgba(70, 88, 154, .16);
+      --shadow: 0 28px 90px rgba(79, 98, 160, .16);
+    }
+    a { color: inherit; text-decoration: none; }
+    button { font: inherit; }
+    .dy-page { position: relative; isolation: isolate; min-height: 100vh; background: radial-gradient(circle at 50% -10%, rgba(86, 114, 255, .15), transparent 34%), linear-gradient(180deg, var(--bg) 0%, var(--bg-deep) 56%, var(--bg) 100%); }
+    .dy-wrap { width: min(var(--max), calc(100% - 40px)); margin: 0 auto; }
+    #dy-stars { position: fixed; inset: 0; z-index: -8; width: 100%; height: 100%; pointer-events: none; opacity: .82; }
+    .dy-aurora { position: fixed; z-index: -7; width: 52vw; height: 38vw; max-width: 780px; max-height: 560px; border-radius: 50%; filter: blur(80px); opacity: .18; pointer-events: none; mix-blend-mode: screen; }
+    .dy-aurora.a { top: -15vw; left: -12vw; background: #5b77ff; animation: dy-float-a 17s ease-in-out infinite alternate; }
+    .dy-aurora.b { top: 12vw; right: -18vw; background: #e27cdd; animation: dy-float-a 21s ease-in-out -7s infinite alternate-reverse; }
+    .dy-aurora.c { bottom: -22vw; left: 29vw; background: #49d9ed; animation: dy-float-a 25s ease-in-out -11s infinite alternate; }
+    .dy-grain { position: fixed; inset: 0; z-index: -6; opacity: .045; pointer-events: none; background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 180 180' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.8' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='.4'/%3E%3C/svg%3E"); }
+    .dy-nav-wrap { position: sticky; top: 14px; z-index: 30; padding-top: 14px; }
+    .dy-nav { display: flex; align-items: center; justify-content: space-between; gap: 20px; min-height: 66px; padding: 10px 12px 10px 18px; border: 1px solid var(--line); border-radius: 22px; background: rgba(12, 17, 48, .56); backdrop-filter: blur(20px) saturate(145%); box-shadow: 0 18px 56px rgba(0, 0, 0, .16); }
+    body.light .dy-nav { background: rgba(255, 255, 255, .72); }
+    .dy-brand { display: inline-flex; align-items: center; gap: 11px; min-width: max-content; font-weight: 800; }
+    .dy-brand-mark { display: grid; place-items: center; width: 40px; height: 40px; border: 1px solid rgba(140, 231, 255, .44); border-radius: 14px; background: linear-gradient(135deg, rgba(120, 231, 255, .2), rgba(182, 150, 255, .26)); box-shadow: inset 0 0 18px rgba(255, 255, 255, .08), 0 0 25px rgba(120, 231, 255, .17); }
+    .dy-brand-mark img { display: block; width: 34px; height: 34px; object-fit: contain; border-radius: 10px; filter: drop-shadow(0 0 12px rgba(120,231,255,.24)); }
+    .dy-brand-copy { display: grid; gap: 0; line-height: 1.1; }
+    .dy-brand-copy strong { font-size: 15px; letter-spacing: -.02em; }
+    .dy-brand-copy small { margin-top: 4px; color: var(--subtle); font-size: 10px; letter-spacing: .16em; text-transform: uppercase; }
+    .dy-nav-links { display: flex; align-items: center; gap: 27px; color: var(--muted); font-size: 13px; }
+    .dy-nav-links a { transition: color .25s ease; }
+    .dy-nav-links a:hover { color: var(--text); }
+    .dy-nav-actions { display: flex; align-items: center; gap: 8px; }
+    .dy-icon-btn, .dy-menu-btn { display: grid; place-items: center; width: 40px; height: 40px; color: var(--muted); border: 1px solid var(--line); border-radius: 13px; background: rgba(255,255,255,.045); cursor: pointer; transition: .25s ease; }
+    .dy-icon-btn:hover, .dy-menu-btn:hover { color: var(--text); border-color: rgba(120, 231, 255, .5); transform: translateY(-2px); }
+    .dy-icon-btn svg, .dy-menu-btn svg { width: 18px; height: 18px; }
+    .dy-menu-btn { display: none; }
+    .dy-btn { display: inline-flex; align-items: center; justify-content: center; gap: 9px; min-height: 48px; padding: 0 20px; border: 1px solid transparent; border-radius: 14px; font-size: 13px; font-weight: 800; cursor: pointer; transition: transform .25s ease, box-shadow .25s ease, border-color .25s ease; }
+    .dy-btn:hover { transform: translateY(-3px); }
+    .dy-btn-primary { color: #081126; background: linear-gradient(135deg, var(--cyan), #9eafff); box-shadow: 0 14px 34px rgba(120, 231, 255, .2); }
+    .dy-btn-primary:hover { box-shadow: 0 20px 44px rgba(120, 231, 255, .28); }
+    .dy-btn-ghost { color: var(--text); border-color: var(--line); background: rgba(255, 255, 255, .045); }
+    .dy-btn-ghost:hover { border-color: rgba(120, 231, 255, .5); }
+    .dy-nav-cta { min-height: 44px; padding: 0 16px; border-radius: 13px; }
+    .dy-hero { position: relative; display: grid; grid-template-columns: minmax(0, 1fr) minmax(390px, .9fr); align-items: center; gap: 54px; min-height: 735px; padding: 108px 0 104px; }
+    .dy-hero::before { content: ""; position: absolute; top: 44px; left: 36%; width: 2px; height: 245px; background: linear-gradient(180deg, transparent, rgba(120, 231, 255, .35), transparent); transform: rotate(27deg); opacity: 0; animation: dy-shooting 8s linear infinite; pointer-events: none; }
+    .dy-eyebrow { display: inline-flex; align-items: center; gap: 9px; padding: 7px 12px; color: var(--cyan); border: 1px solid rgba(120, 231, 255, .26); border-radius: 999px; background: rgba(120, 231, 255, .075); font-size: 11px; font-weight: 800; letter-spacing: .12em; text-transform: uppercase; }
+    .dy-eyebrow i { width: 7px; height: 7px; border-radius: 50%; background: var(--green); box-shadow: 0 0 0 5px rgba(116, 239, 178, .1), 0 0 15px var(--green); animation: dy-pulse 1.9s ease-in-out infinite; }
+    h1, h2, h3, p { margin-top: 0; }
+    h1 { max-width: 720px; margin: 24px 0 22px; font-size: clamp(42px, 5.7vw, 82px); line-height: 1.06; letter-spacing: -.072em; }
+    .dy-gradient { background: linear-gradient(115deg, #fff 13%, #b8f1ff 42%, #a999ff 76%, #ffb8e2); -webkit-background-clip: text; background-clip: text; color: transparent; }
+    body.light .dy-gradient { background: linear-gradient(115deg, #131837 13%, #3e75c5 42%, #7457d1 76%, #b44a9a); -webkit-background-clip: text; background-clip: text; color: transparent; }
+    .dy-hero-lede { max-width: 640px; margin-bottom: 30px; color: var(--muted); font-size: 17px; line-height: 1.92; }
+    .dy-hero-lede strong { color: var(--text); font-weight: 800; }
+    .dy-actions { display: flex; flex-wrap: wrap; gap: 12px; }
+    .dy-hero-note { display: flex; align-items: center; gap: 9px; margin-top: 20px; color: var(--subtle); font-size: 12px; }
+    .dy-hero-note svg { width: 16px; height: 16px; color: var(--green); flex: none; }
+    .dy-hero-visual { position: relative; min-height: 530px; display: grid; place-items: center; perspective: 1200px; }
+    .dy-halo { position: absolute; width: 430px; height: 430px; border-radius: 50%; background: radial-gradient(circle, rgba(120, 231, 255, .24), rgba(120, 231, 255, .045) 44%, transparent 69%); filter: blur(10px); animation: dy-halo 5s ease-in-out infinite; }
+    .dy-orbit { position: relative; width: min(510px, 90vw); aspect-ratio: 1; transform-style: preserve-3d; transform: rotateX(61deg) rotateZ(-18deg); transition: transform .35s ease-out; }
+    .dy-orbit::before { content: ""; position: absolute; inset: 8%; border: 1px solid rgba(172, 205, 255, .14); border-radius: 50%; box-shadow: 0 0 80px rgba(120, 231, 255, .12), inset 0 0 65px rgba(120, 231, 255, .045); }
+    .dy-ring { position: absolute; inset: 17%; border: 1px solid rgba(120, 231, 255, .28); border-radius: 50%; transform: rotateX(70deg) rotateY(10deg); box-shadow: 0 0 30px rgba(120, 231, 255, .12); animation: dy-spin 18s linear infinite; }
+    .dy-ring.r2 { inset: 28%; border-color: rgba(182, 150, 255, .27); transform: rotateX(70deg) rotateY(-25deg); animation-duration: 13s; animation-direction: reverse; }
+    .dy-ring.r3 { inset: 8%; border-color: rgba(255, 159, 216, .15); transform: rotateX(70deg) rotateY(42deg); animation-duration: 26s; }
+    .dy-core { position: absolute; inset: 31%; display: grid; place-items: center; border: 1px solid rgba(201, 245, 255, .64); border-radius: 43% 57% 54% 46% / 48% 45% 55% 52%; background: radial-gradient(circle at 36% 27%, #efffff 0 2%, #8feaff 12%, #5b82ff 48%, #a478ff 74%, #ed8acb 100%); box-shadow: 0 0 38px rgba(120, 231, 255, .72), 0 0 112px rgba(137, 118, 255, .4), inset -22px -22px 44px rgba(31, 17, 99, .42); transform: rotateZ(-12deg); animation: dy-core 4.5s ease-in-out infinite; }
+    .dy-core::before { content: ""; width: 44%; height: 44%; border: 1px solid rgba(255,255,255,.66); border-radius: 50%; box-shadow: 0 0 25px rgba(255,255,255,.66); animation: dy-core-pulse 2.4s ease-in-out infinite; }
+    .dy-core-word { position: absolute; inset: auto 0 -46px; color: var(--muted); text-align: center; font-size: 12px; letter-spacing: .28em; text-transform: uppercase; transform: rotateX(-61deg) rotateZ(18deg); }
+    .dy-node { position: absolute; display: flex; align-items: center; gap: 7px; padding: 8px 11px; color: var(--text); border: 1px solid var(--line); border-radius: 999px; background: rgba(11, 16, 47, .82); backdrop-filter: blur(12px); box-shadow: 0 10px 28px rgba(0,0,0,.2); font-size: 11px; white-space: nowrap; transform: rotateX(-61deg) rotateZ(18deg); }
+    body.light .dy-node { background: rgba(255, 255, 255, .8); }
+    .dy-node::before { content: ""; width: 6px; height: 6px; border-radius: 50%; background: var(--cyan); box-shadow: 0 0 12px var(--cyan); }
+    .dy-node.n1 { top: 12%; left: 9%; }
+    .dy-node.n2 { top: 20%; right: 2%; }
+    .dy-node.n3 { right: 4%; bottom: 18%; }
+    .dy-node.n4 { bottom: 9%; left: 12%; }
+    .dy-caption { position: absolute; right: 3%; bottom: 8%; display: flex; align-items: center; gap: 9px; padding: 11px 14px; color: var(--muted); border: 1px solid var(--line); border-radius: 14px; background: var(--panel); backdrop-filter: blur(16px); font-size: 11px; box-shadow: var(--shadow); animation: dy-float 4s ease-in-out infinite; }
+    .dy-caption strong { color: var(--text); font-size: 12px; }
+    .dy-mini-dot { width: 7px; height: 7px; border-radius: 50%; background: var(--green); box-shadow: 0 0 10px var(--green); }
+    .dy-cloud { position: absolute; width: 220px; height: 54px; opacity: .28; filter: blur(.2px); pointer-events: none; animation: dy-cloud 42s linear infinite; }
+    .dy-cloud::before, .dy-cloud::after { content: ""; position: absolute; bottom: 0; border-radius: 999px; background: linear-gradient(180deg, rgba(219, 239, 255, .9), rgba(134, 172, 241, .18)); }
+    .dy-cloud::before { left: 0; width: 100%; height: 25px; }
+    .dy-cloud::after { left: 30px; width: 94px; height: 52px; box-shadow: 67px 14px 0 -7px rgba(198, 229, 255, .7), 125px 18px 0 -11px rgba(198, 229, 255, .56); }
+    .dy-cloud.c1 { top: 190px; left: -240px; animation-delay: -9s; }
+    .dy-cloud.c2 { top: 340px; left: -320px; opacity: .18; transform: scale(.72); animation-duration: 55s; animation-delay: -28s; }
+    .dy-cloud.c3 { top: 125px; left: -300px; opacity: .15; transform: scale(.53); animation-duration: 62s; animation-delay: -45s; }
+    .dy-birds { position: absolute; top: 150px; left: 12%; width: 360px; height: 160px; opacity: .65; pointer-events: none; animation: dy-birds 24s ease-in-out infinite alternate; }
+    .dy-birds path { fill: none; stroke: rgba(225, 244, 255, .9); stroke-linecap: round; stroke-width: 3; }
+    .dy-birds .b2 { transform: translate(142px, 40px) scale(.63); opacity: .6; }
+    .dy-birds .b3 { transform: translate(248px, -10px) scale(.4); opacity: .45; }
+    .dy-marquee { overflow: hidden; border-top: 1px solid var(--line); border-bottom: 1px solid var(--line); background: rgba(255,255,255,.018); }
+    .dy-marquee-track { display: flex; width: max-content; animation: dy-marquee 30s linear infinite; }
+    .dy-marquee-item { display: inline-flex; align-items: center; gap: 12px; padding: 15px 32px; color: var(--subtle); font-size: 12px; letter-spacing: .04em; white-space: nowrap; }
+    .dy-marquee-item b { color: var(--cyan); font-size: 16px; font-weight: 400; }
+    .dy-section { padding: 118px 0; }
+    .dy-section-head { display: grid; grid-template-columns: .86fr 1.14fr; gap: 42px; align-items: end; margin-bottom: 42px; }
+    .dy-kicker { color: var(--cyan); font-size: 11px; font-weight: 800; letter-spacing: .18em; text-transform: uppercase; }
+    h2 { margin: 12px 0 0; font-size: clamp(31px, 4vw, 53px); line-height: 1.15; letter-spacing: -.055em; }
+    .dy-section-head p { max-width: 630px; margin: 0; color: var(--muted); font-size: 15px; line-height: 1.92; }
+    .dy-feature-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; }
+    .dy-card { position: relative; min-height: 292px; padding: 29px; border: 1px solid var(--line); border-radius: var(--radius); background: linear-gradient(145deg, rgba(255,255,255,.075), rgba(255,255,255,.025)); box-shadow: var(--shadow); overflow: hidden; transition: transform .3s ease, border-color .3s ease; }
+    body.light .dy-card { background: linear-gradient(145deg, rgba(255,255,255,.93), rgba(255,255,255,.58)); }
+    .dy-card:hover { transform: translateY(-7px); border-color: rgba(120, 231, 255, .45); }
+    .dy-card::after { content: ""; position: absolute; right: -52px; bottom: -80px; width: 188px; height: 188px; border-radius: 50%; background: radial-gradient(circle, rgba(120,231,255,.17), transparent 68%); }
+    .dy-card-icon { display: grid; place-items: center; width: 49px; height: 49px; margin-bottom: 26px; color: var(--cyan); border: 1px solid rgba(120,231,255,.27); border-radius: 16px; background: rgba(120,231,255,.08); }
+    .dy-card-icon svg { width: 23px; height: 23px; }
+    .dy-card-tag { position: absolute; top: 24px; right: 20px; color: var(--subtle); font-size: 10px; letter-spacing: .12em; text-transform: uppercase; }
+    .dy-card h3 { margin: 0 0 10px; font-size: 20px; letter-spacing: -.035em; }
+    .dy-card p { margin: 0; color: var(--muted); font-size: 13px; line-height: 1.87; }
+    .dy-split { display: grid; grid-template-columns: .94fr 1.06fr; gap: 18px; align-items: stretch; }
+    .dy-panel { border: 1px solid var(--line); border-radius: var(--radius); background: var(--panel); box-shadow: var(--shadow); backdrop-filter: blur(18px); }
+    .dy-story { display: flex; flex-direction: column; justify-content: space-between; min-height: 480px; padding: 37px; overflow: hidden; }
+    .dy-story h2 { max-width: 540px; }
+    .dy-story-copy { max-width: 540px; margin: 20px 0 0; color: var(--muted); font-size: 15px; line-height: 1.92; }
+    .dy-check-list { display: grid; grid-template-columns: repeat(2, 1fr); gap: 11px; margin-top: 28px; }
+    .dy-check-list div { display: flex; align-items: center; gap: 9px; color: var(--muted); font-size: 12px; }
+    .dy-check-list i { display: grid; place-items: center; width: 20px; height: 20px; color: var(--green); border: 1px solid rgba(116,239,178,.32); border-radius: 50%; font-style: normal; font-size: 12px; }
+    .dy-signal { position: relative; display: grid; place-items: center; min-height: 182px; margin-top: 28px; overflow: hidden; border: 1px solid var(--line); border-radius: 21px; background: linear-gradient(135deg, rgba(120,231,255,.075), rgba(182,150,255,.1)); }
+    .dy-signal::before, .dy-signal::after { content: ""; position: absolute; border: 1px solid rgba(120,231,255,.22); border-radius: 50%; animation: dy-signal 14s linear infinite; }
+    .dy-signal::before { width: 260px; height: 82px; transform: rotate(23deg); }
+    .dy-signal::after { width: 170px; height: 60px; border-color: rgba(255,159,216,.21); transform: rotate(-34deg); animation-direction: reverse; }
+    .dy-signal span { position: relative; z-index: 1; color: var(--text); font-size: 13px; font-weight: 800; letter-spacing: .14em; text-transform: uppercase; }
+    .dy-code-panel { display: flex; flex-direction: column; overflow: hidden; }
+    .dy-code-top { display: flex; align-items: center; justify-content: space-between; gap: 10px; padding: 18px 22px; border-bottom: 1px solid var(--line); }
+    .dy-code-dots { display: flex; gap: 6px; }
+    .dy-code-dots i { width: 8px; height: 8px; border-radius: 50%; background: #ff7f9a; }
+    .dy-code-dots i:nth-child(2) { background: #ffd36d; }
+    .dy-code-dots i:nth-child(3) { background: #74efb2; }
+    .dy-code-title { color: var(--muted); font-size: 11px; letter-spacing: .1em; text-transform: uppercase; }
+    .dy-copy { display: inline-flex; align-items: center; gap: 6px; padding: 7px 9px; color: var(--muted); border: 1px solid var(--line); border-radius: 9px; background: transparent; font-size: 11px; cursor: pointer; transition: .2s ease; }
+    .dy-copy:hover { color: var(--text); border-color: rgba(120,231,255,.45); }
+    .dy-copy svg { width: 14px; height: 14px; }
+    pre { flex: 1; min-height: 410px; margin: 0; padding: 28px 25px 32px; overflow: auto; color: #d9e7ff; background: rgba(3,6,21,.56); font: 12px/2 "SFMono-Regular", Consolas, "Liberation Mono", monospace; tab-size: 2; }
+    body.light pre { color: #30416d; background: rgba(233,239,255,.64); }
+    .tok-key { color: #8ee7ff; }
+    .tok-str { color: #ffb1db; }
+    .tok-fn { color: #b8a5ff; }
+    .tok-comment { color: #7183a9; }
+    .dy-stats { display: grid; grid-template-columns: repeat(4, 1fr); gap: 12px; margin-top: 20px; }
+    .dy-stat { padding: 20px; border: 1px solid var(--line); border-radius: 18px; background: rgba(255,255,255,.035); }
+    .dy-stat strong { display: block; color: var(--text); font-size: 29px; line-height: 1.1; letter-spacing: -.06em; }
+    .dy-stat span { display: block; margin-top: 8px; color: var(--subtle); font-size: 11px; }
+    .dy-faq-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+    details { padding: 21px 24px; border: 1px solid var(--line); border-radius: 18px; background: rgba(255,255,255,.035); transition: background .25s ease, border-color .25s ease; }
+    details[open] { border-color: rgba(120,231,255,.4); background: rgba(120,231,255,.055); }
+    summary { display: flex; align-items: center; justify-content: space-between; gap: 18px; color: var(--text); cursor: pointer; list-style: none; font-size: 14px; font-weight: 800; }
+    summary::-webkit-details-marker { display: none; }
+    summary::after { content: "+"; color: var(--cyan); font-size: 21px; font-weight: 400; transition: transform .25s ease; }
+    details[open] summary::after { transform: rotate(45deg); }
+    details p { max-width: 700px; margin: 14px 0 0; color: var(--muted); font-size: 13px; line-height: 1.87; }
+    .dy-cta { position: relative; display: grid; grid-template-columns: 1fr auto; align-items: center; gap: 26px; padding: 43px 46px; overflow: hidden; border-color: rgba(120,231,255,.25); background: linear-gradient(115deg, rgba(120,231,255,.1), rgba(182,150,255,.12), rgba(255,159,216,.08)); }
+    .dy-cta::before { content: ""; position: absolute; width: 390px; height: 390px; right: -145px; top: -195px; border: 1px solid rgba(255,255,255,.12); border-radius: 50%; box-shadow: 0 0 0 30px rgba(255,255,255,.025), 0 0 0 60px rgba(255,255,255,.015); }
+    .dy-cta h2, .dy-cta p, .dy-cta .dy-btn { position: relative; z-index: 1; }
+    .dy-cta h2 { font-size: clamp(28px, 3.5vw, 45px); }
+    .dy-cta p { max-width: 700px; margin: 13px 0 0; color: var(--muted); font-size: 14px; }
+    footer { padding: 30px 0 38px; color: var(--subtle); border-top: 1px solid var(--line); font-size: 12px; }
+    .dy-footer-inner { display: flex; align-items: center; justify-content: space-between; gap: 20px; }
+    .dy-footer-links { display: flex; flex-wrap: wrap; gap: 18px; }
+    .dy-footer-links a:hover { color: var(--text); }
+    /* UI polish: premium glass surfaces, brand-led accents, and clearer hierarchy. */
+    .dy-page { background:
+      radial-gradient(900px 520px at 12% -6%, rgba(50, 143, 214, .20), transparent 64%),
+      radial-gradient(740px 520px at 96% 12%, rgba(0, 213, 231, .13), transparent 61%),
+      linear-gradient(180deg, var(--bg) 0%, var(--bg-deep) 56%, var(--bg) 100%); }
+    .dy-nav { border-color: rgba(129, 215, 255, .22); background: linear-gradient(135deg, rgba(8, 20, 49, .78), rgba(14, 27, 68, .48)); box-shadow: 0 18px 58px rgba(0,0,0,.22), inset 0 1px 0 rgba(255,255,255,.08); }
+    body.light .dy-nav { background: linear-gradient(135deg, rgba(255,255,255,.86), rgba(234,247,255,.68)); box-shadow: 0 18px 58px rgba(59, 106, 164, .13), inset 0 1px 0 rgba(255,255,255,.9); }
+    .dy-brand-mark { width: 46px; height: 46px; border-radius: 15px; border-color: rgba(126, 224, 255, .52); background: linear-gradient(145deg, rgba(255,255,255,.16), rgba(45,170,223,.13)); box-shadow: inset 0 0 20px rgba(255,255,255,.11), 0 0 28px rgba(55,207,239,.19); overflow: hidden; }
+    .dy-brand-mark img { width: 42px; height: 42px; border-radius: 12px; }
+    .dy-brand-copy strong { font-size: 16px; letter-spacing: -.035em; }
+    .dy-brand-copy small { color: #7bdcf1; }
+    .dy-nav-links a { position: relative; padding: 8px 0; }
+    .dy-nav-links a::after { content: ""; position: absolute; right: 50%; bottom: 0; left: 50%; height: 2px; border-radius: 99px; background: linear-gradient(90deg, var(--cyan), var(--violet)); transition: left .25s ease, right .25s ease; }
+    .dy-nav-links a:hover::after { right: 0; left: 0; }
+    .dy-btn { position: relative; overflow: hidden; }
+    .dy-btn::before { content: ""; position: absolute; top: -40%; bottom: -40%; left: -30%; width: 24%; transform: translateX(-180%) rotate(18deg); background: rgba(255,255,255,.45); filter: blur(10px); transition: transform .65s ease; }
+    .dy-btn:hover::before { transform: translateX(660%) rotate(18deg); }
+    .dy-btn-primary { background: linear-gradient(110deg, #62ddf3 0%, #8da8ff 48%, #c19bff 100%); box-shadow: 0 16px 38px rgba(75, 190, 242, .23), inset 0 1px 0 rgba(255,255,255,.55); }
+    .dy-btn-ghost { background: linear-gradient(135deg, rgba(255,255,255,.07), rgba(255,255,255,.025)); box-shadow: inset 0 1px 0 rgba(255,255,255,.08); }
+    .dy-hero-copy { position: relative; z-index: 1; }
+    .dy-hero-copy::before { content: ""; position: absolute; z-index: -1; top: 5%; left: -18%; width: 390px; height: 240px; border-radius: 50%; background: radial-gradient(ellipse, rgba(45, 196, 235, .12), transparent 68%); filter: blur(16px); pointer-events: none; }
+    .dy-eyebrow { box-shadow: inset 0 1px 0 rgba(255,255,255,.09), 0 8px 24px rgba(61, 203, 232, .07); }
+    h1 { text-wrap: balance; text-shadow: 0 18px 50px rgba(0,0,0,.18); }
+    .dy-hero-lede { max-width: 680px; }
+    .dy-hero-visual { filter: drop-shadow(0 28px 70px rgba(52, 141, 243, .16)); }
+    .dy-halo { background: radial-gradient(circle, rgba(67, 223, 255, .29), rgba(112, 129, 255, .10) 45%, transparent 70%); }
+    .dy-orbit::after { content: ""; position: absolute; inset: 19%; border: 1px dashed rgba(123, 224, 255, .18); border-radius: 50%; transform: rotateX(70deg) rotateY(-32deg); animation: dy-spin 24s linear infinite reverse; }
+    .dy-core { box-shadow: 0 0 44px rgba(89, 224, 255, .78), 0 0 126px rgba(137,118,255,.46), inset -22px -22px 44px rgba(31,17,99,.42), inset 10px 12px 24px rgba(255,255,255,.32); }
+    .dy-node { border-color: rgba(134, 222, 255, .24); box-shadow: 0 13px 32px rgba(0,0,0,.23), inset 0 1px 0 rgba(255,255,255,.08); }
+    .dy-card, .dy-panel, details { box-shadow: 0 24px 70px rgba(0,0,0,.16), inset 0 1px 0 rgba(255,255,255,.06); }
+    .dy-card:hover { box-shadow: 0 30px 84px rgba(0,0,0,.23), 0 0 0 1px rgba(120,231,255,.09), inset 0 1px 0 rgba(255,255,255,.08); }
+    .dy-card-icon { background: linear-gradient(145deg, rgba(120,231,255,.16), rgba(182,150,255,.10)); }
+    .dy-story, .dy-code-panel { border-color: rgba(132, 215, 255, .20); }
+    .dy-stats .dy-stat { background: linear-gradient(135deg, rgba(255,255,255,.07), rgba(255,255,255,.025)); }
+    .dy-stat strong { background: linear-gradient(110deg, var(--text), var(--cyan)); -webkit-background-clip: text; background-clip: text; color: transparent; }
+    .dy-cta { background: linear-gradient(118deg, rgba(80,214,240,.14), rgba(114,126,255,.16) 52%, rgba(255,159,216,.11)); box-shadow: 0 28px 90px rgba(28,79,153,.20), inset 0 1px 0 rgba(255,255,255,.10); }
+    .dy-footer-inner { padding-top: 4px; }
+    .dy-footer-links a { transition: color .2s ease, transform .2s ease; }
+    .dy-footer-links a:hover { transform: translateY(-1px); }
+    .dy-reveal { opacity: 0; transform: translateY(22px); transition: opacity .75s ease, transform .75s ease; }
+    .dy-reveal.visible { opacity: 1; transform: none; }
+    @keyframes dy-pulse { 50% { transform: scale(.7); opacity: .62; } }
+    @keyframes dy-float-a { to { transform: translate3d(7vw, 4vw, 0) scale(1.18) rotate(8deg); } }
+    @keyframes dy-shooting { 0%, 54% { opacity: 0; transform: translate3d(0,-60px,0) rotate(27deg); } 66% { opacity: .8; } 78%, 100% { opacity: 0; transform: translate3d(190px,325px,0) rotate(27deg); } }
+    @keyframes dy-halo { 50% { transform: scale(1.13); opacity: .78; } }
+    @keyframes dy-spin { to { transform: rotateX(70deg) rotateY(10deg) rotateZ(360deg); } }
+    @keyframes dy-core { 50% { transform: rotateZ(-12deg) scale(1.06); filter: saturate(1.16); } }
+    @keyframes dy-core-pulse { 50% { transform: scale(.55); opacity: .6; } }
+    @keyframes dy-float { 50% { transform: translateY(-8px); } }
+    @keyframes dy-signal { to { transform: rotate(384deg); } }
+    @keyframes dy-cloud { to { transform: translateX(calc(100vw + 440px)); } }
+    @keyframes dy-birds { to { transform: translate3d(55px, 20px, 0); } }
+    @keyframes dy-marquee { to { transform: translateX(-50%); } }
+    @media (max-width: 920px) {
+      .dy-nav { position: relative; }
+      .dy-nav-links { display: none; position: absolute; top: 76px; right: 0; left: 0; flex-direction: column; align-items: stretch; gap: 0; padding: 8px; border: 1px solid var(--line); border-radius: 18px; background: var(--panel-strong); box-shadow: var(--shadow); }
+      .dy-nav-links.open { display: flex; }
+      .dy-nav-links a { padding: 12px 14px; border-radius: 12px; }
+      .dy-nav-links a:hover { background: rgba(120,231,255,.08); }
+      .dy-menu-btn { display: grid; }
+      .dy-hero { grid-template-columns: 1fr; gap: 20px; padding-top: 84px; }
+      .dy-hero-visual { min-height: 470px; }
+      .dy-section-head, .dy-split { grid-template-columns: 1fr; }
+      .dy-feature-grid { grid-template-columns: repeat(3, 1fr); }
+      .dy-cta { grid-template-columns: 1fr; }
+    }
+    @media (max-width: 680px) {
+      .dy-wrap { width: min(var(--max), calc(100% - 28px)); }
+      .dy-nav-wrap { top: 7px; padding-top: 7px; }
+      .dy-nav { min-height: 58px; padding-left: 12px; }
+      .dy-brand-copy small { display: none; }
+      .dy-nav-cta { display: none; }
+      .dy-hero { min-height: auto; padding: 80px 0 78px; }
+      h1 { font-size: clamp(40px, 13vw, 64px); }
+      .dy-hero-lede { font-size: 15px; }
+      .dy-hero-visual { min-height: 380px; transform: scale(.9); margin: -12px -30px -10px; }
+      .dy-node { font-size: 10px; }
+      .dy-node.n2, .dy-node.n3 { right: 0; }
+      .dy-section { padding: 82px 0; }
+      .dy-feature-grid, .dy-faq-grid, .dy-stats { grid-template-columns: 1fr; }
+      .dy-story { min-height: 0; padding: 28px; }
+      .dy-check-list { grid-template-columns: 1fr; }
+      .dy-cta { padding: 30px 26px; }
+      .dy-footer-inner { align-items: flex-start; flex-direction: column; }
+    }
+    @media (prefers-reduced-motion: reduce) {
+      html { scroll-behavior: auto; }
+      *, *::before, *::after { animation-duration: .001ms !important; animation-iteration-count: 1 !important; transition-duration: .001ms !important; }
+      .dy-reveal { opacity: 1; transform: none; }
+    }
+  </style>
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@graph": [
+      {
+        "@type": "Organization",
+        "@id": "https://api.dreayun.com/#organization",
+        "name": "即云API",
+        "alternateName": ["即云AI", "即云", "DreaYunAPI"],
+        "url": "https://api.dreayun.com/",
+        "sameAs": ["https://api.dreayun.com/"],
+        "logo": { "@type": "ImageObject", "url": "./b2b80378c408.png" }
+      },
+      {
+        "@type": "WebSite",
+        "@id": "https://api.dreayun.com/#website",
+        "url": "https://api.dreayun.com/",
+        "name": "即云API（DreaYunAPI）",
+        "alternateName": ["即云AI", "即云"],
+        "publisher": { "@id": "https://api.dreayun.com/#organization" },
+        "inLanguage": "zh-CN"
+      },
+      {
+        "@type": "WebPage",
+        "@id": "https://api.dreayun.com/#webpage",
+        "url": "https://api.dreayun.com/",
+        "name": "即云API（DreaYunAPI）｜大模型API中转站与AI接口聚合平台",
+        "isPartOf": { "@id": "https://api.dreayun.com/#website" },
+        "about": { "@id": "https://api.dreayun.com/#organization" },
+        "description": "即云API（DreaYunAPI），又称即云AI、即云，是面向开发者与企业的大模型API中转站和AI接口聚合平台。",
+        "inLanguage": "zh-CN"
+      },
+      {
+        "@type": "FAQPage",
+        "mainEntity": [
+          {
+            "@type": "Question",
+            "name": "即云API、即云AI、即云和DreaYunAPI是什么关系？",
+            "acceptedAnswer": { "@type": "Answer", "text": "即云API是平台中文品牌，用户也会使用即云AI、即云或DreaYunAPI来称呼该平台。API服务入口为 https://api.dreayun.com/。" }
+          },
+          {
+            "@type": "Question",
+            "name": "即云API可以做什么？",
+            "acceptedAnswer": { "@type": "Answer", "text": "即云API提供大模型API中转与AI接口聚合能力，通过统一入口帮助开发者接入文本、视觉、图像和视频等AI能力，具体可用模型以平台当前页面与官方文档为准。" }
+          },
+          {
+            "@type": "Question",
+            "name": "即云API是否支持OpenAI兼容接口？",
+            "acceptedAnswer": { "@type": "Answer", "text": "平台提供OpenAI兼容调用方式。通常需要配置API Key、Base URL与模型名称，具体请求格式、模型列表和限制请以即云API官方文档为准。" }
+          },
+          {
+            "@type": "Question",
+            "name": "如何开始使用即云API？",
+            "acceptedAnswer": { "@type": "Answer", "text": "访问即云API服务入口，注册账号后根据控制台与官方文档创建密钥、选择模型并完成接口接入。" }
+          }
+        ]
+      }
+    ]
+  }
+  </script>
+</head>
+<body>
+  <div class="dy-page">
+    <canvas id="dy-stars" aria-hidden="true"></canvas>
+    <div class="dy-aurora a" aria-hidden="true"></div>
+    <div class="dy-aurora b" aria-hidden="true"></div>
+    <div class="dy-aurora c" aria-hidden="true"></div>
+    <div class="dy-grain" aria-hidden="true"></div>
+    <div class="dy-cloud c1" aria-hidden="true"></div>
+    <div class="dy-cloud c2" aria-hidden="true"></div>
+    <div class="dy-cloud c3" aria-hidden="true"></div>
+    <svg class="dy-birds" viewBox="0 0 360 160" aria-hidden="true"><path d="M18 68c14-15 27-15 41 0-14-8-27-8-41 0Zm142 41c12-13 24-13 36 0-12-7-24-7-36 0Zm95-54c10-10 20-10 30 0-10-6-20-6-30 0Z"/><path class="b2" d="M18 68c14-15 27-15 41 0-14-8-27-8-41 0Z"/><path class="b3" d="M18 68c14-15 27-15 41 0-14-8-27-8-41 0Z"/></svg>
+
+    <div class="dy-nav-wrap">
+      <div class="dy-wrap">
+        <nav class="dy-nav" aria-label="主导航">
+          <a class="dy-brand" href="https://api.dreayun.com/" aria-label="即云API首页">
+            <span class="dy-brand-mark" aria-hidden="true"><img src="./b2b80378c408.png" alt="" decoding="async"></span>
+            <span class="dy-brand-copy"><strong>即云API</strong><small>DreaYunAPI</small></span>
+          </a>
+          <div class="dy-nav-links" id="dyNavLinks">
+            <a href="#capabilities">平台能力</a>
+            <a href="#integration">快速接入</a>
+            <a href="#faq">常见问题</a>
+            <a href="https://api.dreayun.com/pricing">模型与价格</a>
+          </div>
+          <div class="dy-nav-actions">
+            <button class="dy-icon-btn" id="dyTheme" type="button" aria-label="切换明暗主题" title="切换明暗主题"><svg id="dyThemeIcon" viewBox="0 0 24 24" fill="none"><path d="M20.5 15.2A8.5 8.5 0 0 1 8.8 3.5 8.6 8.6 0 1 0 20.5 15.2Z" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/></svg></button>
+            <button class="dy-menu-btn" id="dyMenu" type="button" aria-label="打开菜单" aria-expanded="false"><svg viewBox="0 0 24 24" fill="none"><path d="M4 7h16M4 12h16M4 17h16" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"/></svg></button>
+            <a class="dy-btn dy-btn-primary dy-nav-cta" href="https://api.dreayun.com/register?aff=05yj">进入 API 控制台 <span aria-hidden="true">↗</span></a>
+          </div>
+        </nav>
+      </div>
+    </div>
+
+    <main>
+      <section class="dy-wrap dy-hero" aria-labelledby="dyHeroTitle">
+        <div class="dy-hero-copy dy-reveal">
+          <div class="dy-eyebrow"><i></i><span id="dyStatus" aria-live="polite">统一入口，连接多种AI能力</span></div>
+          <h1 id="dyHeroTitle"><span class="dy-gradient">让每一次想象，</span><br>都拥有一条 API。</h1>
+          <p class="dy-hero-lede"><strong>即云API（DreaYunAPI）</strong>，又称即云AI、即云，是面向个人开发者与企业团队的<strong>大模型 API 中转站</strong>和<strong>AI 接口聚合平台</strong>。用一个清晰、统一的入口，把模型能力自然带进你的产品。</p>
+          <div class="dy-actions"><a class="dy-btn dy-btn-primary" href="https://api.dreayun.com/register?aff=05yj">免费开始接入 <span aria-hidden="true">↗</span></a><a class="dy-btn dy-btn-ghost" href="#integration">查看接入方式 <span aria-hidden="true">↓</span></a></div>
+          <div class="dy-hero-note"><svg viewBox="0 0 24 24" fill="none"><path d="M12 3.7 19 6v5.2c0 4.2-2.8 7.9-7 9.1-4.2-1.2-7-4.9-7-9.1V6l7-2.3Z" stroke="currentColor" stroke-width="1.6"/><path d="m8.7 12 2.1 2.1 4.6-4.6" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg><span>为真实项目准备的 AI 接入路径，具体服务能力以官方文档为准</span></div>
+        </div>
+
+        <div class="dy-hero-visual dy-reveal" id="dyVisual" aria-label="即云API多模型连接示意图">
+          <div class="dy-halo" aria-hidden="true"></div>
+          <div class="dy-orbit" id="dyOrbit"><div class="dy-ring"></div><div class="dy-ring r2"></div><div class="dy-ring r3"></div><div class="dy-core"><span class="dy-core-word">AI GATEWAY</span></div><span class="dy-node n1">文本模型</span><span class="dy-node n2">视觉理解</span><span class="dy-node n3">图像生成</span><span class="dy-node n4">视频能力</span></div>
+          <div class="dy-caption"><span class="dy-mini-dot"></span><span><strong>即云API</strong><br><span id="dyCaption">模型接入层正在发光</span></span></div>
+        </div>
+      </section>
+
+      <div class="dy-marquee" aria-label="即云API相关关键词"><div class="dy-marquee-track"><span class="dy-marquee-item"><b>✦</b> 即云API</span><span class="dy-marquee-item"><b>✦</b> 即云AI</span><span class="dy-marquee-item"><b>✦</b> DreaYunAPI</span><span class="dy-marquee-item"><b>✦</b> 大模型API</span><span class="dy-marquee-item"><b>✦</b> API中转站</span><span class="dy-marquee-item"><b>✦</b> AI接口聚合</span><span class="dy-marquee-item"><b>✦</b> OpenAI兼容接口</span><span class="dy-marquee-item"><b>✦</b> 即云API</span><span class="dy-marquee-item"><b>✦</b> 即云AI</span><span class="dy-marquee-item"><b>✦</b> DreaYunAPI</span><span class="dy-marquee-item"><b>✦</b> 大模型API</span><span class="dy-marquee-item"><b>✦</b> API中转站</span><span class="dy-marquee-item"><b>✦</b> AI接口聚合</span><span class="dy-marquee-item"><b>✦</b> OpenAI兼容接口</span></div></div>
+
+      <section class="dy-wrap dy-section" id="capabilities" aria-labelledby="dyCapabilitiesTitle">
+        <div class="dy-section-head dy-reveal"><div><div class="dy-kicker">Why DreaYunAPI</div><h2 id="dyCapabilitiesTitle">把复杂的模型世界，<br>整理成一个入口。</h2></div><p>从第一次调试，到产品真正上线，即云API将常见的大模型调用流程收拢到一个更清晰的工作台中。你可以按项目需要选择模型，并以熟悉的方式完成接入。</p></div>
+        <div class="dy-feature-grid">
+          <article class="dy-card dy-reveal"><span class="dy-card-tag">01 / Route</span><div class="dy-card-icon"><svg viewBox="0 0 24 24" fill="none"><path d="M5 7h5v5H5zM14 12h5v5h-5zM10 9.5h4M12 9.5v2.5M12 14v1" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg></div><h3>统一的大模型 API 入口</h3><p>通过统一的 API 服务入口管理调用流程，减少在不同模型服务之间反复切换的成本，让开发者更专注于产品体验。</p></article>
+          <article class="dy-card dy-reveal"><span class="dy-card-tag">02 / Compatible</span><div class="dy-card-icon"><svg viewBox="0 0 24 24" fill="none"><path d="M8.5 6.5 4 12l4.5 5.5M15.5 6.5 20 12l-4.5 5.5M13.5 4l-3 16" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg></div><h3>OpenAI 兼容接入方式</h3><p>通常只需调整 API Key、Base URL 与模型名称，即可将已有 SDK 调用习惯迁移到即云API，具体参数以官方文档为准。</p></article>
+          <article class="dy-card dy-reveal"><span class="dy-card-tag">03 / Build</span><div class="dy-card-icon"><svg viewBox="0 0 24 24" fill="none"><path d="M4 16.5 9 11l3.5 3.5L20 7" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/><path d="M15 7h5v5" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/></svg></div><h3>从灵感到上线，节奏更快</h3><p>适合个人原型、自动化工具、内容应用以及团队项目，把模型调用能力融入你的工作流与业务系统。</p></article>
+        </div>
+      </section>
+
+      <section class="dy-wrap dy-section" id="integration" aria-labelledby="dyIntegrationTitle">
+        <div class="dy-section-head dy-reveal"><div><div class="dy-kicker">Start in minutes</div><h2 id="dyIntegrationTitle">熟悉的代码，<br>更快的答案。</h2></div><p>访问 <a href="https://api.dreayun.com/" style="color:var(--cyan);font-weight:800">api.dreayun.com</a> 注册并创建 API Key，再按照官方文档配置 Base URL 与模型名称，即可开始探索。</p></div>
+        <div class="dy-split">
+          <div class="dy-panel dy-story dy-reveal"><div><div class="dy-eyebrow"><i></i>Developer first</div><h2>让接入这件事，<br><span class="dy-gradient">回到它本来的简单。</span></h2><p class="dy-story-copy">即云API将大模型 API 中转、AI 接口聚合与统一密钥管理放进一个清晰的使用路径。无论你在做 AI 应用、智能客服、内容工具还是内部自动化，都可以从一个入口开始。</p><div class="dy-check-list"><div><i>✓</i>统一 API Base URL</div><div><i>✓</i>OpenAI 兼容调用</div><div><i>✓</i>多类 AI 能力接入</div><div><i>✓</i>个人与企业场景</div></div></div><div class="dy-signal"><span id="dySignal">BUILD · TEST · SHIP</span></div></div>
+          <div class="dy-panel dy-code-panel dy-reveal"><div class="dy-code-top"><div class="dy-code-dots"><i></i><i></i><i></i></div><span class="dy-code-title">OpenAI-compatible / Python</span><button class="dy-copy" id="dyCopy" type="button"><svg viewBox="0 0 24 24" fill="none"><rect x="8" y="8" width="11" height="11" rx="2" stroke="currentColor" stroke-width="1.5"/><path d="M16 8V6a2 2 0 0 0-2-2H6a2 2 0 0 0-2 2v8a2 2 0 0 0 2 2h2" stroke="currentColor" stroke-width="1.5"/></svg><span>复制代码</span></button></div><pre id="dyCode" aria-label="即云API Python 接入示例"><code><span class="tok-key">from</span> openai <span class="tok-key">import</span> OpenAI
+
+client = OpenAI(
+    api_key=<span class="tok-str">"YOUR_API_KEY"</span>,
+    base_url=<span class="tok-str">"https://api.dreayun.com/v1"</span>
+)
+
+response = client.chat.completions.create(
+    model=<span class="tok-str">"YOUR_MODEL"</span>,
+    messages=[
+        {<span class="tok-str">"role"</span>: <span class="tok-str">"user"</span>, <span class="tok-str">"content"</span>: <span class="tok-str">"你好，即云API！"</span>}
+    ]
+)
+
+<span class="tok-fn">print</span>(response.choices[0].message.content)
+<span class="tok-comment"># 请以官方文档与控制台显示为准</span></code></pre></div>
+        </div>
+        <div class="dy-stats dy-reveal" aria-label="即云API使用路径"><div class="dy-stat"><strong data-count="01">01</strong><span>注册即云API账号</span></div><div class="dy-stat"><strong data-count="02">02</strong><span>创建并管理 API Key</span></div><div class="dy-stat"><strong data-count="03">03</strong><span>选择模型与调用方式</span></div><div class="dy-stat"><strong data-count="04">04</strong><span>把 AI 能力接入产品</span></div></div>
+      </section>
+
+      <section class="dy-wrap dy-section" id="faq" aria-labelledby="dyFaqTitle"><div class="dy-section-head dy-reveal"><div><div class="dy-kicker">FAQ</div><h2 id="dyFaqTitle">开始之前，<br>先回答几个问题。</h2></div><p>以下内容帮助搜索“即云API”“即云AI”“即云”“DreaYunAPI”以及“大模型API”“API中转站”的用户快速了解平台。</p></div><div class="dy-faq-grid">
+        <details class="dy-reveal"><summary>即云API、即云AI、即云和 DreaYunAPI 是什么关系？</summary><p>即云API是平台中文品牌，用户也会使用即云AI、即云或 DreaYunAPI 来称呼该平台。API服务入口为 <a href="https://api.dreayun.com/" style="color:var(--cyan)">api.dreayun.com</a>。</p></details>
+        <details class="dy-reveal"><summary>即云API可以做什么？</summary><p>即云API提供大模型API中转与AI接口聚合能力，通过统一入口帮助开发者接入文本、视觉、图像和视频等AI能力，具体可用模型以平台当前页面与文档为准。</p></details>
+        <details class="dy-reveal"><summary>是否支持 OpenAI 兼容接口？</summary><p>平台提供 OpenAI 兼容调用方式。通常需要配置 API Key、Base URL 与模型名称，具体请求格式、模型列表和限制请以官方文档为准。</p></details>
+        <details class="dy-reveal"><summary>个人开发者可以使用吗？</summary><p>可以。即云API适合个人原型、自动化工具、内容应用，也适合团队和企业统一管理大模型接口与项目调用。</p></details>
+      </div></section>
+
+      <section class="dy-wrap dy-section" aria-labelledby="dyCtaTitle"><div class="dy-panel dy-cta dy-reveal"><div><div class="dy-kicker">Your next build starts here</div><h2 id="dyCtaTitle">现在，就让想法开始运行。</h2><p>进入即云API，注册账号，选择你的第一种模型能力。把下一次灵感，变成真正可调用的 API。</p></div><a class="dy-btn dy-btn-primary" href="https://api.dreayun.com/register?aff=05yj">进入即云API <span aria-hidden="true">↗</span></a></div></section>
+    </main>
+
+    <footer><div class="dy-wrap dy-footer-inner"><div>© 2026 即云API（DreaYunAPI） · 大模型API中转站与AI接口聚合平台</div><div class="dy-footer-links"><a href="https://api.dreayun.com/">API入口</a><a href="https://api.dreayun.com/pricing">模型与价格</a><a href="https://api.dreayun.com/customersupport">客户支持</a></div></div></footer>
+  </div>
+
+  <script>
+    (() => {
+      const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+      const body = document.body;
+      const themeBtn = document.getElementById('dyTheme');
+      const themeIcon = document.getElementById('dyThemeIcon');
+      const savedTheme = localStorage.getItem('dreayun-theme');
+      if (savedTheme === 'light') body.classList.add('light');
+      const updateThemeIcon = () => {
+        themeIcon.innerHTML = body.classList.contains('light')
+          ? '<path d="M12 3v2M12 19v2M4.2 4.2l1.4 1.4M18.4 18.4l1.4 1.4M3 12h2M19 12h2M4.2 19.8l1.4-1.4M18.4 5.6l1.4-1.4" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/><circle cx="12" cy="12" r="3.6" stroke="currentColor" stroke-width="1.6"/> '
+          : '<path d="M20.5 15.2A8.5 8.5 0 0 1 8.8 3.5 8.6 8.6 0 1 0 20.5 15.2Z" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/>';
+      };
+      updateThemeIcon();
+      themeBtn.addEventListener('click', () => { body.classList.toggle('light'); localStorage.setItem('dreayun-theme', body.classList.contains('light') ? 'light' : 'dark'); updateThemeIcon(); });
+
+      const menuBtn = document.getElementById('dyMenu');
+      const navLinks = document.getElementById('dyNavLinks');
+      menuBtn.addEventListener('click', () => { const open = navLinks.classList.toggle('open'); menuBtn.setAttribute('aria-expanded', String(open)); });
+      navLinks.querySelectorAll('a').forEach(link => link.addEventListener('click', () => { navLinks.classList.remove('open'); menuBtn.setAttribute('aria-expanded', 'false'); }));
+
+      const status = document.getElementById('dyStatus');
+      const statuses = ['统一入口，连接多种AI能力', 'OpenAI兼容，熟悉方式快速接入', '即云AI，让模型调用更清晰'];
+      const caption = document.getElementById('dyCaption');
+      const captions = ['模型接入层正在发光', '统一入口准备就绪', '让想法开始运行'];
+      const signal = document.getElementById('dySignal');
+      const signals = ['BUILD · TEST · SHIP', 'IDEA · API · PRODUCT', 'DreaYunAPI · READY'];
+      let index = 0;
+      if (!reduceMotion) {
+        setInterval(() => { index = (index + 1) % statuses.length; status.textContent = statuses[index]; caption.textContent = captions[index]; signal.textContent = signals[index]; }, 3200);
+      }
+
+      const copyBtn = document.getElementById('dyCopy');
+      const code = document.getElementById('dyCode');
+      copyBtn.addEventListener('click', async () => { try { await navigator.clipboard.writeText(code.innerText); copyBtn.querySelector('span').textContent = '已复制'; setTimeout(() => copyBtn.querySelector('span').textContent = '复制代码', 1600); } catch { copyBtn.querySelector('span').textContent = '请手动复制'; setTimeout(() => copyBtn.querySelector('span').textContent = '复制代码', 1600); } });
+
+      const reveal = document.querySelectorAll('.dy-reveal');
+      if ('IntersectionObserver' in window && !reduceMotion) { const observer = new IntersectionObserver((entries, obs) => { entries.forEach(entry => { if (entry.isIntersecting) { entry.target.classList.add('visible'); obs.unobserve(entry.target); } }); }, { threshold: .12 }); reveal.forEach(item => observer.observe(item)); } else reveal.forEach(item => item.classList.add('visible'));
+
+      const visual = document.getElementById('dyVisual');
+      const orbit = document.getElementById('dyOrbit');
+      if (!reduceMotion && window.matchMedia('(pointer:fine)').matches) { visual.addEventListener('pointermove', event => { const rect = visual.getBoundingClientRect(); const x = (event.clientX - rect.left) / rect.width - .5; const y = (event.clientY - rect.top) / rect.height - .5; orbit.style.transform = 'rotateX(' + (61 - y * 5) + 'deg) rotateZ(' + (-18 + x * 6) + 'deg)'; }); visual.addEventListener('pointerleave', () => { orbit.style.transform = 'rotateX(61deg) rotateZ(-18deg)'; }); }
+
+      const canvas = document.getElementById('dy-stars');
+      const ctx = canvas.getContext('2d');
+      const stars = [];
+      let width = 0; let height = 0; let dpr = 1;
+      const resize = () => { width = window.innerWidth; height = window.innerHeight; dpr = Math.min(window.devicePixelRatio || 1, 2); canvas.width = width * dpr; canvas.height = height * dpr; canvas.style.width = width + 'px'; canvas.style.height = height + 'px'; ctx.setTransform(dpr, 0, 0, dpr, 0, 0); stars.length = 0; const count = Math.min(190, Math.floor(width * height / 10000)); for (let i = 0; i < count; i++) stars.push({ x: Math.random() * width, y: Math.random() * height, r: Math.random() * 1.2 + .25, a: Math.random() * .7 + .16, t: Math.random() * Math.PI * 2, s: Math.random() * .0008 + .0003, drift: (Math.random() - .5) * .018 }); };
+      resize(); window.addEventListener('resize', resize, { passive: true });
+      if (!reduceMotion) { let last = performance.now(); const draw = now => { const dt = now - last; last = now; ctx.clearRect(0, 0, width, height); for (const star of stars) { star.t += dt * star.s; star.x += star.drift * dt; if (star.x < -4) star.x = width + 4; if (star.x > width + 4) star.x = -4; const alpha = star.a * (.72 + Math.sin(star.t) * .28); ctx.beginPath(); ctx.fillStyle = 'rgba(192,224,255,' + alpha + ')'; ctx.arc(star.x, star.y, star.r, 0, Math.PI * 2); ctx.fill(); } requestAnimationFrame(draw); }; requestAnimationFrame(draw); } else { ctx.fillStyle = 'rgba(192,224,255,.65)'; stars.forEach(star => { ctx.beginPath(); ctx.arc(star.x, star.y, star.r, 0, Math.PI * 2); ctx.fill(); }); }
+    })();
+  </script>
+</body>
+</html>
+
+
+
+
+
+
