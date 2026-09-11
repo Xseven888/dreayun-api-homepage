@@ -1,0 +1,332 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>如何接入 Codex｜即云API DreaYunAPI 配置教程</title>
+  <meta name="description" content="即云API Codex 接入教程：下载 Codex 与 CC Switch，创建即云API Key，配置 Base URL，快速完成大模型编程助手接入。">
+  <meta name="keywords" content="即云API Codex,Codex接入教程,Codex配置,CC Switch,即云AI,即云,DreaYunAPI,API中转站,大模型API,OpenAI兼容接口">
+  <meta name="robots" content="index,follow,max-image-preview:large,max-snippet:-1,max-video-preview:-1">
+  <meta name="author" content="即云API（DreaYunAPI）">
+  <link rel="canonical" href="https://dreayun.com/codex.html">
+  <meta name="theme-color" content="#070a1e">
+  <link rel="icon" type="image/png" href="./b2b80378c408.png">
+  <link rel="apple-touch-icon" href="./b2b80378c408.png">
+  <meta property="og:type" content="article">
+  <meta property="og:locale" content="zh_CN">
+  <meta property="og:site_name" content="即云API（DreaYunAPI）">
+  <meta property="og:title" content="如何接入 Codex｜即云API配置教程">
+  <meta property="og:description" content="下载 Codex 与 CC Switch，按照步骤配置即云API，开启更顺畅的大模型编程体验。">
+  <meta property="og:url" content="https://dreayun.com/codex.html">
+  <meta property="og:image" content="https://image.zhongzhuan.chat/2026/09/b2b80378c408.png">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="如何接入 Codex｜即云API">
+  <meta name="twitter:description" content="即云API Codex 接入与配置教程。">
+  <meta name="twitter:image" content="https://image.zhongzhuan.chat/2026/09/b2b80378c408.png">
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "HowTo",
+    "name": "如何使用即云API接入 Codex",
+    "description": "下载 Codex 与 CC Switch，创建即云API Key，配置服务地址并开始使用。",
+    "inLanguage": "zh-CN",
+    "provider": {"@type": "Organization", "name": "即云API（DreaYunAPI）", "url": "https://api.dreayun.com/"},
+    "step": [
+      {"@type": "HowToStep", "position": 1, "name": "下载安装 Codex", "text": "通过页面提供的 Microsoft 下载地址安装 Codex。"},
+      {"@type": "HowToStep", "position": 2, "name": "创建即云API Key", "text": "注册即云API账号并在控制台创建 API Key。"},
+      {"@type": "HowToStep", "position": 3, "name": "下载安装 CC Switch", "text": "前往 CC Switch 下载页面并完成安装。"},
+      {"@type": "HowToStep", "position": 4, "name": "填写服务配置", "text": "在配置工具中填写即云API Base URL、API Key 与控制台提供的模型名称。"},
+      {"@type": "HowToStep", "position": 5, "name": "切换并启动", "text": "保存并切换到新配置，然后打开 Codex。"}
+    ]
+  }
+  </script>
+  <style>
+    :root {
+      --bg: #070a1e;
+      --bg-deep: #040614;
+      --panel: rgba(17, 24, 60, .66);
+      --panel-strong: rgba(19, 27, 70, .9);
+      --text: #f7f8ff;
+      --muted: #aab6d8;
+      --subtle: #7684ac;
+      --line: rgba(177, 204, 255, .16);
+      --cyan: #77e7ff;
+      --blue: #859dff;
+      --violet: #b991ff;
+      --pink: #ff9ddd;
+      --green: #74eeb4;
+      --shadow: 0 30px 100px rgba(0, 0, 0, .36);
+      --max: 1160px;
+    }
+    * { box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    body {
+      margin: 0;
+      color: var(--text);
+      background: var(--bg);
+      font-family: Inter, "PingFang SC", "Microsoft YaHei", system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      line-height: 1.7;
+      overflow-x: hidden;
+    }
+    body.light {
+      --bg: #f4f7ff;
+      --bg-deep: #edf2ff;
+      --panel: rgba(255,255,255,.72);
+      --panel-strong: rgba(255,255,255,.94);
+      --text: #141a3a;
+      --muted: #5c688b;
+      --subtle: #7a86a5;
+      --line: rgba(66, 86, 150, .17);
+      --shadow: 0 30px 90px rgba(69, 88, 150, .17);
+    }
+    a { color: inherit; text-decoration: none; }
+    button { color: inherit; font: inherit; }
+    .page {
+      position: relative;
+      isolation: isolate;
+      min-height: 100vh;
+      background:
+        radial-gradient(900px 570px at 10% -5%, rgba(70, 138, 255, .2), transparent 65%),
+        radial-gradient(850px 520px at 95% 8%, rgba(191, 104, 255, .16), transparent 62%),
+        linear-gradient(180deg, var(--bg) 0%, var(--bg-deep) 54%, var(--bg) 100%);
+    }
+    .wrap { width: min(var(--max), calc(100% - 40px)); margin: 0 auto; }
+    #stars { position: fixed; inset: 0; z-index: -10; width: 100%; height: 100%; pointer-events: none; opacity: .78; }
+    .aurora { position: fixed; z-index: -9; width: 48vw; height: 40vw; border-radius: 50%; filter: blur(90px); opacity: .18; pointer-events: none; mix-blend-mode: screen; }
+    .aurora.a { top: -18vw; left: -12vw; background: #497dff; animation: drift 18s ease-in-out infinite alternate; }
+    .aurora.b { top: 13vw; right: -20vw; background: #e376e4; animation: drift 23s ease-in-out -7s infinite alternate-reverse; }
+    .aurora.c { bottom: -23vw; left: 32vw; background: #4be2ec; animation: drift 27s ease-in-out -10s infinite alternate; }
+    .grain { position: fixed; inset: 0; z-index: -7; opacity: .04; pointer-events: none; background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 180 180' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.82' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='.42'/%3E%3C/svg%3E"); }
+    .cloud { position: fixed; z-index: -6; width: 240px; height: 68px; border-radius: 999px; background: rgba(218, 237, 255, .08); filter: blur(1px); pointer-events: none; }
+    .cloud::before, .cloud::after { content: ""; position: absolute; bottom: 8px; border-radius: 50%; background: inherit; }
+    .cloud::before { left: 38px; width: 84px; height: 84px; }
+    .cloud::after { right: 43px; width: 112px; height: 112px; }
+    .cloud.one { top: 19%; left: -280px; animation: cloudMove 44s linear infinite; }
+    .cloud.two { top: 68%; left: -340px; width: 310px; opacity: .66; animation: cloudMove 58s linear -19s infinite; }
+    .birds { position: fixed; top: 28%; right: -100px; z-index: -5; color: rgba(170, 228, 255, .42); font-size: 24px; letter-spacing: 18px; pointer-events: none; animation: birdFly 31s linear infinite; }
+    .nav-wrap { position: sticky; top: 14px; z-index: 30; padding-top: 14px; }
+    .nav { display: flex; align-items: center; justify-content: space-between; gap: 18px; min-height: 70px; padding: 0 18px; border: 1px solid var(--line); border-radius: 22px; background: color-mix(in srgb, var(--panel-strong) 88%, transparent); box-shadow: 0 18px 60px rgba(0,0,0,.16); backdrop-filter: blur(24px); }
+    .brand { display: flex; align-items: center; gap: 11px; min-width: max-content; }
+    .brand img { width: 42px; height: 42px; object-fit: cover; border-radius: 13px; box-shadow: 0 9px 24px rgba(73, 198, 242, .25); }
+    .brand-copy { display: grid; line-height: 1.15; }
+    .brand-copy strong { font-size: 16px; letter-spacing: -.03em; }
+    .brand-copy small { margin-top: 5px; color: var(--cyan); font-size: 9px; letter-spacing: .18em; text-transform: uppercase; }
+    .nav-links { display: flex; align-items: center; gap: 10px; margin-left: auto; }
+    .nav-link, .theme-btn { display: inline-flex; align-items: center; justify-content: center; height: 40px; border: 1px solid var(--line); border-radius: 13px; background: rgba(255,255,255,.04); transition: .25s ease; }
+    .nav-link { padding: 0 15px; color: var(--muted); font-size: 13px; }
+    .nav-link:hover, .theme-btn:hover { color: var(--text); border-color: rgba(119,231,255,.48); transform: translateY(-2px); }
+    .theme-btn { width: 40px; cursor: pointer; }
+    .theme-btn svg { width: 18px; height: 18px; }
+    .hero { position: relative; display: grid; grid-template-columns: 1.04fr .96fr; align-items: center; gap: 64px; min-height: 690px; padding: 92px 0 68px; }
+    .eyebrow { display: inline-flex; align-items: center; gap: 9px; padding: 7px 12px; color: var(--cyan); border: 1px solid rgba(119,231,255,.24); border-radius: 999px; background: rgba(119,231,255,.07); font-size: 11px; font-weight: 700; letter-spacing: .15em; text-transform: uppercase; }
+    .eyebrow i { width: 7px; height: 7px; border-radius: 50%; background: var(--green); box-shadow: 0 0 16px var(--green); animation: pulse 1.8s ease-in-out infinite; }
+    h1, h2, h3, p { margin-top: 0; }
+    h1 { max-width: 720px; margin: 24px 0 20px; font-size: clamp(48px, 7vw, 84px); line-height: 1.03; letter-spacing: -.065em; }
+    .gradient-text { background: linear-gradient(105deg, #fff 2%, var(--cyan) 42%, var(--violet) 76%, var(--pink)); -webkit-background-clip: text; background-clip: text; color: transparent; }
+    body.light .gradient-text { background: linear-gradient(105deg, #16224a 3%, #1da4c4 43%, #6e59d9 78%, #c14a96); -webkit-background-clip: text; background-clip: text; color: transparent; }
+    .lead { max-width: 640px; margin-bottom: 30px; color: var(--muted); font-size: 16px; }
+    .hero-actions { display: flex; flex-wrap: wrap; gap: 12px; }
+    .btn { position: relative; display: inline-flex; align-items: center; justify-content: center; gap: 10px; min-height: 52px; padding: 0 22px; overflow: hidden; border: 1px solid var(--line); border-radius: 16px; background: rgba(255,255,255,.05); font-size: 14px; font-weight: 750; transition: .25s ease; }
+    .btn::before { content: ""; position: absolute; top: -50%; bottom: -50%; left: -35%; width: 23%; transform: translateX(-190%) rotate(18deg); background: rgba(255,255,255,.44); filter: blur(10px); transition: transform .68s ease; }
+    .btn:hover { transform: translateY(-3px); border-color: rgba(119,231,255,.5); }
+    .btn:hover::before { transform: translateX(720%) rotate(18deg); }
+    .btn.primary { color: #091224; border-color: transparent; background: linear-gradient(110deg, #74e4f6, #9aa4ff 53%, #cca4ff); box-shadow: 0 16px 42px rgba(90,188,245,.25); }
+    .hero-visual { position: relative; display: grid; place-items: center; min-height: 480px; }
+    .orbit { position: absolute; width: 430px; height: 430px; max-width: 90vw; max-height: 90vw; border: 1px solid rgba(141,195,255,.17); border-radius: 50%; animation: rotate 24s linear infinite; }
+    .orbit::before, .orbit::after { content: ""; position: absolute; border-radius: 50%; }
+    .orbit::before { top: 36px; left: 45px; width: 13px; height: 13px; background: var(--cyan); box-shadow: 0 0 25px var(--cyan); }
+    .orbit::after { right: 7px; bottom: 121px; width: 9px; height: 9px; background: var(--pink); box-shadow: 0 0 22px var(--pink); }
+    .orbit.inner { width: 325px; height: 325px; border-style: dashed; animation-duration: 19s; animation-direction: reverse; }
+    .visual-card { position: relative; display: grid; place-items: center; width: 250px; height: 300px; overflow: hidden; border: 1px solid rgba(189,211,255,.25); border-radius: 38px; background: linear-gradient(155deg, rgba(255,255,255,.14), rgba(101,120,218,.08)); box-shadow: 0 34px 90px rgba(0,0,0,.32), inset 0 1px 0 rgba(255,255,255,.16); backdrop-filter: blur(26px); transform: rotate(4deg); animation: cardFloat 5.5s ease-in-out infinite; }
+    .visual-card::before { content: ""; position: absolute; inset: -50%; background: conic-gradient(from 60deg, transparent, rgba(119,231,255,.18), transparent 28%, rgba(255,157,221,.16), transparent 57%); animation: rotate 11s linear infinite; }
+    .visual-card img { position: relative; z-index: 2; width: 150px; height: 150px; border-radius: 34px; box-shadow: 0 20px 46px rgba(0,0,0,.26); }
+    .visual-card span { position: absolute; z-index: 3; bottom: 32px; color: var(--muted); font-size: 12px; letter-spacing: .18em; text-transform: uppercase; }
+    .section { padding: 74px 0; }
+    .section-head { display: grid; grid-template-columns: 1fr .85fr; align-items: end; gap: 40px; margin-bottom: 34px; }
+    .kicker { margin-bottom: 12px; color: var(--cyan); font-size: 11px; font-weight: 800; letter-spacing: .19em; text-transform: uppercase; }
+    h2 { margin-bottom: 0; font-size: clamp(32px, 4.7vw, 55px); line-height: 1.12; letter-spacing: -.05em; }
+    .section-head p { margin-bottom: 4px; color: var(--muted); font-size: 14px; }
+    .downloads { display: grid; grid-template-columns: repeat(2, 1fr); gap: 22px; }
+    .download-card { position: relative; display: grid; grid-template-columns: 90px 1fr; gap: 24px; min-height: 280px; padding: 30px; overflow: hidden; border: 1px solid var(--line); border-radius: 30px; background: linear-gradient(145deg, var(--panel), rgba(100,102,200,.08)); box-shadow: var(--shadow); backdrop-filter: blur(22px); transition: transform .3s ease, border-color .3s ease; }
+    .download-card:hover { transform: translateY(-7px); border-color: rgba(119,231,255,.43); }
+    .download-card::after { content: ""; position: absolute; right: -80px; bottom: -90px; width: 230px; height: 230px; border-radius: 50%; background: radial-gradient(circle, rgba(119,231,255,.15), transparent 67%); }
+    .download-card.cc::after { background: radial-gradient(circle, rgba(255,174,81,.15), transparent 67%); }
+    .app-icon { position: relative; z-index: 2; width: 90px; height: 90px; padding: 8px; object-fit: contain; border: 1px solid rgba(255,255,255,.19); border-radius: 25px; background: rgba(255,255,255,.08); box-shadow: 0 18px 40px rgba(0,0,0,.22); }
+    .download-copy { position: relative; z-index: 2; }
+    .download-label { color: var(--subtle); font-size: 10px; font-weight: 800; letter-spacing: .18em; text-transform: uppercase; }
+    .download-card h3 { margin: 7px 0 8px; font-size: 27px; letter-spacing: -.035em; }
+    .download-card p { min-height: 52px; margin-bottom: 20px; color: var(--muted); font-size: 13px; }
+    .download-card .btn { min-height: 48px; padding-inline: 18px; }
+    .steps { position: relative; display: grid; gap: 14px; counter-reset: step; }
+    .steps::before { content: ""; position: absolute; top: 40px; bottom: 40px; left: 31px; width: 1px; background: linear-gradient(var(--cyan), var(--violet), transparent); }
+    .step { position: relative; display: grid; grid-template-columns: 64px 1fr; gap: 20px; padding: 22px 24px 22px 0; border: 1px solid var(--line); border-radius: 22px; background: var(--panel); backdrop-filter: blur(18px); counter-increment: step; }
+    .step-number { position: relative; z-index: 2; display: grid; place-items: center; width: 44px; height: 44px; margin-left: 10px; border: 1px solid rgba(119,231,255,.34); border-radius: 14px; background: var(--panel-strong); color: var(--cyan); font-size: 12px; font-weight: 900; box-shadow: 0 9px 22px rgba(0,0,0,.15); }
+    .step-number::after { content: "0" counter(step); }
+    .step h3 { margin: 1px 0 5px; font-size: 18px; }
+    .step p { margin-bottom: 0; color: var(--muted); font-size: 13px; }
+    .inline-link { color: var(--cyan); border-bottom: 1px dashed rgba(119,231,255,.5); }
+    .config-panel { display: grid; grid-template-columns: 1fr .72fr; gap: 22px; margin-top: 22px; }
+    .config-box, .notice { padding: 26px; border: 1px solid var(--line); border-radius: 24px; background: var(--panel); backdrop-filter: blur(18px); }
+    .config-box h3, .notice h3 { margin-bottom: 12px; font-size: 18px; }
+    .code-row { display: flex; align-items: center; justify-content: space-between; gap: 14px; min-height: 58px; padding: 0 10px 0 17px; border: 1px solid rgba(119,231,255,.2); border-radius: 15px; background: rgba(3,7,24,.38); }
+    body.light .code-row { background: rgba(228,235,255,.65); }
+    .code-row code { overflow-wrap: anywhere; color: var(--cyan); font: 600 13px/1.4 ui-monospace, SFMono-Regular, Consolas, monospace; }
+    .copy-btn { flex: 0 0 auto; padding: 8px 12px; border: 1px solid var(--line); border-radius: 10px; background: rgba(255,255,255,.06); cursor: pointer; transition: .2s ease; }
+    .copy-btn:hover { border-color: rgba(119,231,255,.5); }
+    .config-help, .notice p { margin: 12px 0 0; color: var(--muted); font-size: 12px; }
+    .notice { border-color: rgba(255,217,138,.2); background: linear-gradient(145deg, var(--panel), rgba(255,190,100,.06)); }
+    .notice strong { color: #ffd98a; }
+    body.light .notice strong { color: #9c6714; }
+    .cta { display: flex; align-items: center; justify-content: space-between; gap: 24px; padding: 38px 42px; overflow: hidden; border: 1px solid var(--line); border-radius: 30px; background: linear-gradient(115deg, rgba(70,211,239,.14), rgba(113,120,255,.17) 51%, rgba(255,157,221,.11)); box-shadow: var(--shadow); }
+    .cta h2 { font-size: clamp(27px, 4vw, 43px); }
+    .cta p { max-width: 650px; margin: 11px 0 0; color: var(--muted); font-size: 13px; }
+    footer { padding: 30px 0 38px; color: var(--subtle); border-top: 1px solid var(--line); font-size: 12px; }
+    .footer-inner { display: flex; align-items: center; justify-content: space-between; gap: 18px; }
+    .footer-links { display: flex; flex-wrap: wrap; gap: 18px; }
+    .footer-links a:hover { color: var(--text); }
+    .reveal { opacity: 0; transform: translateY(22px); transition: opacity .75s ease, transform .75s ease; }
+    .reveal.visible { opacity: 1; transform: none; }
+    @keyframes pulse { 50% { transform: scale(.65); opacity: .62; } }
+    @keyframes drift { to { transform: translate3d(8vw, 5vw, 0) scale(1.14) rotate(9deg); } }
+    @keyframes cloudMove { to { transform: translateX(calc(100vw + 700px)); } }
+    @keyframes birdFly { to { transform: translateX(calc(-100vw - 260px)) translateY(-90px); } }
+    @keyframes rotate { to { transform: rotate(360deg); } }
+    @keyframes cardFloat { 50% { transform: rotate(-2deg) translateY(-15px); } }
+    @media (max-width: 860px) {
+      .hero { grid-template-columns: 1fr; gap: 20px; padding-top: 78px; }
+      .hero-visual { min-height: 430px; }
+      .section-head, .config-panel { grid-template-columns: 1fr; }
+      .downloads { grid-template-columns: 1fr; }
+      .cta { align-items: flex-start; flex-direction: column; }
+    }
+    @media (max-width: 620px) {
+      .wrap { width: min(100% - 24px, var(--max)); }
+      .nav { min-height: 64px; padding: 0 11px; border-radius: 18px; }
+      .brand-copy small { display: none; }
+      .nav-link.guide { display: none; }
+      .nav-link { padding-inline: 11px; }
+      .hero { min-height: auto; padding: 72px 0 50px; }
+      h1 { font-size: clamp(43px, 15vw, 64px); }
+      .lead { font-size: 14px; }
+      .hero-visual { min-height: 355px; }
+      .orbit { width: 330px; height: 330px; }
+      .orbit.inner { width: 255px; height: 255px; }
+      .visual-card { width: 205px; height: 250px; }
+      .visual-card img { width: 124px; height: 124px; }
+      .section { padding: 55px 0; }
+      .download-card { grid-template-columns: 65px 1fr; gap: 16px; min-height: 0; padding: 22px 18px; border-radius: 24px; }
+      .app-icon { width: 65px; height: 65px; border-radius: 19px; }
+      .download-card h3 { font-size: 22px; }
+      .download-card p { min-height: 0; }
+      .download-card .btn { grid-column: 1 / -1; width: 100%; }
+      .step { grid-template-columns: 53px 1fr; gap: 10px; padding-right: 16px; }
+      .step-number { margin-left: 8px; }
+      .steps::before { left: 29px; }
+      .code-row { align-items: flex-start; flex-direction: column; padding: 14px; }
+      .copy-btn { width: 100%; }
+      .cta { padding: 28px 23px; border-radius: 25px; }
+      .footer-inner { align-items: flex-start; flex-direction: column; }
+    }
+    @media (prefers-reduced-motion: reduce) {
+      html { scroll-behavior: auto; }
+      *, *::before, *::after { animation-duration: .001ms !important; animation-iteration-count: 1 !important; transition-duration: .001ms !important; }
+    }
+  </style>
+</head>
+<body>
+  <div class="page">
+    <canvas id="stars" aria-hidden="true"></canvas>
+    <div class="aurora a" aria-hidden="true"></div><div class="aurora b" aria-hidden="true"></div><div class="aurora c" aria-hidden="true"></div>
+    <div class="grain" aria-hidden="true"></div><div class="cloud one" aria-hidden="true"></div><div class="cloud two" aria-hidden="true"></div><div class="birds" aria-hidden="true">⌁⌁⌁</div>
+
+    <div class="nav-wrap"><nav class="wrap nav" aria-label="页面导航">
+      <a class="brand" href="./index.html" aria-label="返回即云API首页"><img src="./b2b80378c408.png" alt="即云API Logo"><span class="brand-copy"><strong>即云API</strong><small>DreaYunAPI</small></span></a>
+      <div class="nav-links">
+        <a class="nav-link guide" href="#guide">接入步骤</a>
+        <a class="nav-link" href="./index.html">返回首页</a>
+        <button class="theme-btn" id="themeBtn" type="button" aria-label="切换明暗主题"><svg id="themeIcon" viewBox="0 0 24 24" fill="none" aria-hidden="true"></svg></button>
+      </div>
+    </nav></div>
+
+    <main>
+      <section class="wrap hero" aria-labelledby="pageTitle">
+        <div class="reveal">
+          <div class="eyebrow"><i></i> DreaYunAPI × Codex</div>
+          <h1 id="pageTitle">让 Codex<br><span class="gradient-text">接入即云API</span></h1>
+          <p class="lead">从下载安装到服务配置，一页完成 Codex 接入准备。使用即云API统一管理 API Key 与模型入口，让你的编程工作流更清晰。</p>
+          <div class="hero-actions"><a class="btn primary" href="#downloads">立即开始 <span aria-hidden="true">↓</span></a><a class="btn" href="https://api.dreayun.com/register?aff=05yj" target="_blank" rel="noopener noreferrer">注册即云API <span aria-hidden="true">↗</span></a></div>
+        </div>
+        <div class="hero-visual reveal" aria-hidden="true"><div class="orbit"></div><div class="orbit inner"></div><div class="visual-card"><img src="./codex-icon.webp" alt=""><span>Code · Create · Ship</span></div></div>
+      </section>
+
+      <section class="wrap section" id="downloads" aria-labelledby="downloadTitle">
+        <div class="section-head reveal"><div><div class="kicker">Download Center</div><h2 id="downloadTitle">先准备好两个工具。</h2></div><p>请根据设备与页面提示完成安装。下载按钮会打开对应的外部下载地址。</p></div>
+        <div class="downloads">
+          <article class="download-card reveal"><img class="app-icon" src="./codex-icon.webp" alt="Codex 图标"><div class="download-copy"><div class="download-label">Step 01 · Microsoft Installer</div><h3>Codex</h3><p>下载并安装 Codex for Windows，安装完成后再继续进行服务配置。</p><a class="btn primary" href="https://get.microsoft.com/installer/download/9PLM9XGG6VKS?cid=website_cta_psi" target="_blank" rel="noopener noreferrer">下载 Codex <span aria-hidden="true">↓</span></a></div></article>
+          <article class="download-card cc reveal"><img class="app-icon" src="./cc-switch-logo.png" alt="CC Switch 图标"><div class="download-copy"><div class="download-label">Step 02 · Configuration Tool</div><h3>CC Switch</h3><p>前往 CC Switch 下载页，选择与你的系统匹配的版本并完成安装。</p><a class="btn" href="https://ccswitch.io/en/download" target="_blank" rel="noopener noreferrer">前往 CC Switch 下载页 <span aria-hidden="true">↗</span></a></div></article>
+        </div>
+      </section>
+
+      <section class="wrap section" id="guide" aria-labelledby="guideTitle">
+        <div class="section-head reveal"><div><div class="kicker">Integration Guide</div><h2 id="guideTitle">五步完成接入。</h2></div><p>不同版本的工具界面可能有所变化；模型名称和可用能力，请以即云API控制台当前展示为准。</p></div>
+        <div class="steps">
+          <article class="step reveal"><div class="step-number" aria-hidden="true"></div><div><h3>下载并安装 Codex</h3><p>点击上方“下载 Codex”按钮，通过 Microsoft 安装地址完成安装。</p></div></article>
+          <article class="step reveal"><div class="step-number" aria-hidden="true"></div><div><h3>注册即云API并创建密钥</h3><p>前往<a class="inline-link" href="https://api.dreayun.com/register?aff=05yj" target="_blank" rel="noopener noreferrer">即云API注册页</a>创建账号，然后在控制台生成仅供自己使用的 API Key。</p></div></article>
+          <article class="step reveal"><div class="step-number" aria-hidden="true"></div><div><h3>安装 CC Switch</h3><p>从上方下载入口安装 CC Switch，并在应用中添加新的自定义服务商配置。</p></div></article>
+          <article class="step reveal"><div class="step-number" aria-hidden="true"></div><div><h3>填写即云API配置</h3><p>填写下方 Base URL、你的 API Key，以及即云API控制台当前提供的模型名称。不要使用示例文字作为真实模型名。</p></div></article>
+          <article class="step reveal"><div class="step-number" aria-hidden="true"></div><div><h3>保存、切换并启动</h3><p>保存配置并切换到即云API服务商，然后启动 Codex。若无法调用，请优先核对余额、密钥、服务地址与模型名称。</p></div></article>
+        </div>
+        <div class="config-panel">
+          <div class="config-box reveal"><h3>即云API Base URL</h3><div class="code-row"><code id="baseUrl">https://api.dreayun.com/v1</code><button class="copy-btn" id="copyBtn" type="button">复制地址</button></div><p class="config-help">模型名称请在即云API控制台中查看并复制；API Key 请填写你自己创建的密钥。</p></div>
+          <aside class="notice reveal"><h3>安全提醒</h3><p><strong>不要公开 API Key。</strong> 密钥应只保存在你自己的设备中，不要写入公开网页、截图、聊天记录或提交到 GitHub。CC Switch 为第三方工具，并非即云API或 OpenAI 官方产品。</p></aside>
+        </div>
+      </section>
+
+      <section class="wrap section" aria-labelledby="ctaTitle"><div class="cta reveal"><div><div class="kicker">Ready to connect</div><h2 id="ctaTitle">准备好，就从第一枚 API Key 开始。</h2><p>注册即云API，查看当前模型列表与接口说明，然后完成你的 Codex 配置。</p></div><a class="btn primary" href="https://api.dreayun.com/register?aff=05yj" target="_blank" rel="noopener noreferrer">免费开始接入 <span aria-hidden="true">↗</span></a></div></section>
+    </main>
+
+    <footer><div class="wrap footer-inner"><div>© 2026 即云API（DreaYunAPI） · Codex 接入指南</div><div class="footer-links"><a href="./index.html">返回首页</a><a href="https://api.dreayun.com/">API入口</a><a href="https://api.dreayun.com/customersupport">客户支持</a></div></div></footer>
+  </div>
+
+  <script>
+    (() => {
+      const body = document.body;
+      const themeBtn = document.getElementById('themeBtn');
+      const themeIcon = document.getElementById('themeIcon');
+      const savedTheme = localStorage.getItem('dreayun-theme');
+      if (savedTheme === 'light') body.classList.add('light');
+      const updateThemeIcon = () => {
+        themeIcon.innerHTML = body.classList.contains('light')
+          ? '<path d="M12 3v2M12 19v2M4.2 4.2l1.4 1.4M18.4 18.4l1.4 1.4M3 12h2M19 12h2M4.2 19.8l1.4-1.4M18.4 5.6l1.4-1.4" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/><circle cx="12" cy="12" r="3.6" stroke="currentColor" stroke-width="1.6"/>'
+          : '<path d="M20.5 15.2A8.5 8.5 0 0 1 8.8 3.5 8.6 8.6 0 1 0 20.5 15.2Z" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/>';
+      };
+      updateThemeIcon();
+      themeBtn.addEventListener('click', () => { body.classList.toggle('light'); localStorage.setItem('dreayun-theme', body.classList.contains('light') ? 'light' : 'dark'); updateThemeIcon(); });
+
+      const copyBtn = document.getElementById('copyBtn');
+      copyBtn.addEventListener('click', async () => {
+        const value = document.getElementById('baseUrl').textContent;
+        try { await navigator.clipboard.writeText(value); copyBtn.textContent = '已复制'; }
+        catch (_) { copyBtn.textContent = '请手动复制'; }
+        setTimeout(() => { copyBtn.textContent = '复制地址'; }, 1800);
+      });
+
+      const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+      const reveals = document.querySelectorAll('.reveal');
+      if ('IntersectionObserver' in window && !reduceMotion) {
+        const observer = new IntersectionObserver(entries => entries.forEach(entry => { if (entry.isIntersecting) { entry.target.classList.add('visible'); observer.unobserve(entry.target); } }), { threshold: .12 });
+        reveals.forEach(el => observer.observe(el));
+      } else { reveals.forEach(el => el.classList.add('visible')); }
+
+      if (!reduceMotion) {
+        const canvas = document.getElementById('stars');
+        const ctx = canvas.getContext('2d');
+        let stars = [];
+        const resize = () => { const dpr = Math.min(window.devicePixelRatio || 1, 2); canvas.width = innerWidth * dpr; canvas.height = innerHeight * dpr; canvas.style.width = innerWidth + 'px'; canvas.style.height = innerHeight + 'px'; ctx.setTransform(dpr,0,0,dpr,0,0); stars = Array.from({length: Math.min(120, Math.floor(innerWidth / 10))}, () => ({x: Math.random()*innerWidth,y: Math.random()*innerHeight,r: Math.random()*1.2+.2,a: Math.random()*.65+.15,s: Math.random()*.012+.004})); };
+        const draw = t => { ctx.clearRect(0,0,innerWidth,innerHeight); stars.forEach(star => { const alpha = star.a * (.68 + Math.sin(t*star.s)*.32); ctx.beginPath(); ctx.arc(star.x,star.y,star.r,0,Math.PI*2); ctx.fillStyle = `rgba(195,225,255,${alpha})`; ctx.fill(); }); requestAnimationFrame(draw); };
+        resize(); addEventListener('resize', resize, {passive:true}); requestAnimationFrame(draw);
+      }
+    })();
+  </script>
+</body>
+</html>
