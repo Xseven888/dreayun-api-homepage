@@ -142,6 +142,31 @@
     .visual-card img { position: relative; z-index: 2; width: 150px; height: 150px; border-radius: 34px; box-shadow: 0 20px 46px rgba(0,0,0,.26); }
     .visual-card span { position: absolute; z-index: 3; bottom: 32px; color: var(--muted); font-size: 12px; letter-spacing: .18em; text-transform: uppercase; }
     .section { padding: 74px 0; }
+    .video-panel { position: relative; overflow: hidden; padding: 0; border: 1px solid var(--line); border-radius: 30px; background: var(--panel); box-shadow: var(--shadow); backdrop-filter: blur(22px); }
+    .video-panel::before { content: ""; display: block; height: 3px; background: linear-gradient(90deg, var(--cyan), var(--violet), var(--pink)); opacity: .9; }
+    .video-shell { position: relative; background: #030513; }
+    .tutorial-video { display: block; width: 100%; max-height: 680px; aspect-ratio: 16 / 9; object-fit: contain; background: #030513; cursor: pointer; }
+    /* 自定义播放器控制栏：移除浏览器原生白色控制条，只保留页面蓝色进度条。 */
+    .video-controls { display: flex; align-items: center; gap: 12px; padding: 13px 18px 15px; border-top: 1px solid rgba(177,204,255,.13); background: rgba(3,5,19,.92); }
+    .video-btn { display: inline-grid; flex: 0 0 auto; place-items: center; width: 34px; height: 34px; padding: 0; color: rgba(236,242,255,.9); border: 1px solid rgba(177,204,255,.2); border-radius: 11px; background: rgba(255,255,255,.07); cursor: pointer; transition: color .2s ease, border-color .2s ease, background .2s ease, transform .2s ease; }
+    .video-btn:hover { color: #071226; border-color: transparent; background: var(--cyan); transform: translateY(-1px); }
+    .video-btn:focus-visible { outline: 0; box-shadow: 0 0 0 3px rgba(119,231,255,.25); }
+    .video-btn svg { width: 16px; height: 16px; fill: currentColor; }
+    .video-time { flex: 0 0 43px; color: rgba(236,242,255,.74); font: 600 11px/1 ui-monospace, SFMono-Regular, Consolas, monospace; text-align: center; }
+    .video-progress { width: 100%; height: 5px; flex: 1; appearance: none; -webkit-appearance: none; border: 0; border-radius: 999px; outline: 0; background: linear-gradient(90deg, var(--cyan) 0%, rgba(177,204,255,.18) 0%); cursor: pointer; accent-color: var(--cyan); }
+    .video-progress::-webkit-slider-runnable-track { height: 5px; border-radius: 999px; background: transparent; }
+    .video-progress::-webkit-slider-thumb { width: 14px; height: 14px; margin-top: -4.5px; appearance: none; -webkit-appearance: none; border: 2px solid #eafcff; border-radius: 50%; background: var(--cyan); box-shadow: 0 0 0 4px rgba(119,231,255,.12), 0 0 16px rgba(119,231,255,.58); }
+    .video-progress::-moz-range-track { height: 5px; border-radius: 999px; background: rgba(177,204,255,.18); }
+    .video-progress::-moz-range-progress { height: 5px; border-radius: 999px; background: var(--cyan); }
+    .video-progress::-moz-range-thumb { width: 11px; height: 11px; border: 2px solid #eafcff; border-radius: 50%; background: var(--cyan); box-shadow: 0 0 0 4px rgba(119,231,255,.12), 0 0 16px rgba(119,231,255,.58); cursor: pointer; }
+    .video-progress:focus-visible { box-shadow: 0 0 0 3px rgba(119,231,255,.24); }
+    .video-shell:fullscreen, .video-shell:-webkit-full-screen { display: flex; flex-direction: column; justify-content: center; width: 100vw; height: 100vh; background: #030513; }
+    .video-shell:fullscreen .tutorial-video, .video-shell:-webkit-full-screen .tutorial-video { width: 100%; max-width: 100vw; max-height: calc(100vh - 75px); aspect-ratio: auto; }
+    .video-shell:fullscreen .video-controls, .video-shell:-webkit-full-screen .video-controls { flex: 0 0 auto; }
+    .video-caption { display: flex; align-items: center; justify-content: space-between; gap: 18px; padding: 18px 24px 21px; }
+    .video-caption h3 { margin: 0 0 4px; font-size: 18px; }
+    .video-caption p { margin: 0; color: var(--muted); font-size: 12px; }
+    .video-badge { flex: 0 0 auto; padding: 7px 11px; color: var(--cyan); border: 1px solid rgba(119,231,255,.25); border-radius: 999px; background: rgba(119,231,255,.07); font-size: 10px; font-weight: 800; letter-spacing: .12em; text-transform: uppercase; }
     .section-head { display: grid; grid-template-columns: 1fr .85fr; align-items: end; gap: 40px; margin-bottom: 34px; }
     .kicker { margin-bottom: 12px; color: var(--cyan); font-size: 11px; font-weight: 800; letter-spacing: .19em; text-transform: uppercase; }
     h2 { margin-bottom: 0; font-size: clamp(32px, 4.7vw, 55px); line-height: 1.12; letter-spacing: -.05em; }
@@ -226,6 +251,10 @@
       .copy-btn { width: 100%; }
       .cta { padding: 28px 23px; border-radius: 25px; }
       .footer-inner { align-items: flex-start; flex-direction: column; }
+      .video-caption { align-items: flex-start; flex-direction: column; padding: 16px 18px 19px; }
+      .video-badge { align-self: flex-start; }
+      .video-controls { gap: 8px; padding-inline: 12px; }
+      .video-time { flex-basis: 38px; font-size: 10px; }
     }
     @media (prefers-reduced-motion: reduce) {
       html { scroll-behavior: auto; }
@@ -242,6 +271,7 @@
     <div class="nav-wrap"><nav class="wrap nav" aria-label="页面导航">
       <a class="brand" href="./index.html" aria-label="返回即云API首页"><img src="./b2b80378c408.png" alt="即云API Logo"><span class="brand-copy"><strong>即云API</strong><small>DreaYunAPI</small></span></a>
       <div class="nav-links">
+        <a class="nav-link guide" href="#tutorial">视频教程</a>
         <a class="nav-link guide" href="#guide">接入步骤</a>
         <a class="nav-link" href="./index.html">返回首页</a>
         <button class="theme-btn" id="themeBtn" type="button" aria-label="切换明暗主题"><svg id="themeIcon" viewBox="0 0 24 24" fill="none" aria-hidden="true"></svg></button>
@@ -264,6 +294,17 @@
         <div class="downloads">
           <article class="download-card reveal"><img class="app-icon" src="./codex-icon.webp" alt="Codex 图标"><div class="download-copy"><div class="download-label">Step 01 · Microsoft Installer</div><h3>Codex</h3><p>下载并安装 Codex for Windows，安装完成后再继续进行服务配置。</p><a class="btn primary" href="https://get.microsoft.com/installer/download/9PLM9XGG6VKS?cid=website_cta_psi" target="_blank" rel="noopener noreferrer">下载 Codex <span aria-hidden="true">↓</span></a></div></article>
           <article class="download-card cc reveal"><img class="app-icon" src="./cc-switch-logo.png" alt="CC Switch 图标"><div class="download-copy"><div class="download-label">Step 02 · Configuration Tool</div><h3>CC Switch</h3><p>前往 CC Switch 下载页，选择与你的系统匹配的版本并完成安装。</p><a class="btn" href="https://ccswitch.io/en/download" target="_blank" rel="noopener noreferrer">前往 CC Switch 下载页 <span aria-hidden="true">↗</span></a></div></article>
+        </div>
+      </section>
+
+      <section class="wrap section" id="tutorial" aria-labelledby="tutorialTitle">
+        <div class="section-head reveal"><div><div class="kicker">Video Tutorial</div><h2 id="tutorialTitle">跟着视频，<br>一步完成配置。</h2></div><p>视频演示 Codex 与 CC Switch 的接入流程。播放器支持播放、暂停和全屏控制；下方蓝色进度条可拖动跳转到指定位置。</p></div>
+        <div class="video-panel reveal">
+          <div class="video-shell" id="videoShell"><video id="tutorialVideo" class="tutorial-video" preload="metadata" playsinline webkit-playsinline aria-label="即云API Codex 接入视频教程">
+            <source src="./codex-tutorial.mp4" type="video/mp4">
+            当前浏览器不支持 HTML5 视频播放，请使用支持 MP4 的现代浏览器打开。
+          </video><div class="video-controls" aria-label="视频播放控制"><button class="video-btn" id="videoPlayBtn" type="button" aria-label="播放视频" title="播放"><svg class="play-icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M8 5.14v13.72a1 1 0 0 0 1.52.86l10.32-6.86a1 1 0 0 0 0-1.72L9.52 4.28A1 1 0 0 0 8 5.14Z"></path></svg><svg class="pause-icon" viewBox="0 0 24 24" aria-hidden="true" hidden><path d="M7 5.5A1.5 1.5 0 0 1 8.5 4h1A1.5 1.5 0 0 1 11 5.5v13A1.5 1.5 0 0 1 9.5 20h-1A1.5 1.5 0 0 1 7 18.5v-13Zm6 0A1.5 1.5 0 0 1 14.5 4h1A1.5 1.5 0 0 1 17 5.5v13a1.5 1.5 0 0 1-1.5 1.5h-1a1.5 1.5 0 0 1-1.5-1.5v-13Z"></path></svg></button><span class="video-time" id="videoCurrentTime">00:00</span><input class="video-progress" id="videoProgress" type="range" min="0" max="100" value="0" step="0.1" aria-label="播放进度" aria-valuetext="00:00 / 00:00"><span class="video-time" id="videoDuration">00:00</span><button class="video-btn" id="videoFullscreenBtn" type="button" aria-label="全屏播放" title="全屏播放"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 9V4h5v2H6v3H4Zm11-5h5v5h-2V6h-3V4ZM4 15h2v3h3v2H4v-5Zm14 0h2v5h-5v-2h3v-3Z"></path></svg></button></div></div>
+          <div class="video-caption"><div><h3>即云API × Codex 接入教程</h3><p>建议先准备好即云API Key，再按照视频中的步骤进行配置。</p></div><span class="video-badge">BLUE PROGRESS</span></div>
         </div>
       </section>
 
@@ -310,6 +351,80 @@
         catch (_) { copyBtn.textContent = '请手动复制'; }
         setTimeout(() => { copyBtn.textContent = '复制地址'; }, 1800);
       });
+
+      const tutorialVideo = document.getElementById('tutorialVideo');
+      const videoShell = document.getElementById('videoShell');
+      const videoPlayBtn = document.getElementById('videoPlayBtn');
+      const videoFullscreenBtn = document.getElementById('videoFullscreenBtn');
+      const videoProgress = document.getElementById('videoProgress');
+      const videoCurrentTime = document.getElementById('videoCurrentTime');
+      const videoDuration = document.getElementById('videoDuration');
+      const playIcon = videoPlayBtn.querySelector('.play-icon');
+      const pauseIcon = videoPlayBtn.querySelector('.pause-icon');
+      const formatVideoTime = seconds => {
+        if (!Number.isFinite(seconds) || seconds < 0) return '00:00';
+        const total = Math.floor(seconds);
+        const minutes = Math.floor(total / 60);
+        const remainder = total % 60;
+        return `${String(minutes).padStart(2, '0')}:${String(remainder).padStart(2, '0')}`;
+      };
+      const updatePlayButton = () => {
+        const isPlaying = !tutorialVideo.paused && !tutorialVideo.ended;
+        playIcon.hidden = isPlaying;
+        pauseIcon.hidden = !isPlaying;
+        videoPlayBtn.setAttribute('aria-label', isPlaying ? '暂停视频' : '播放视频');
+        videoPlayBtn.title = isPlaying ? '暂停' : '播放';
+      };
+      const updateFullscreenButton = () => {
+        const isFullscreen = document.fullscreenElement === videoShell || document.webkitFullscreenElement === videoShell;
+        videoFullscreenBtn.setAttribute('aria-label', isFullscreen ? '退出全屏' : '全屏播放');
+        videoFullscreenBtn.title = isFullscreen ? '退出全屏' : '全屏播放';
+      };
+      const updateVideoProgress = () => {
+        const duration = Number.isFinite(tutorialVideo.duration) ? tutorialVideo.duration : 0;
+        const current = Number.isFinite(tutorialVideo.currentTime) ? tutorialVideo.currentTime : 0;
+        const percent = duration ? Math.min(100, Math.max(0, current / duration * 100)) : 0;
+        videoProgress.value = percent;
+        videoCurrentTime.textContent = formatVideoTime(current);
+        videoDuration.textContent = formatVideoTime(duration);
+        videoProgress.style.background = `linear-gradient(90deg, var(--cyan) ${percent}%, rgba(177,204,255,.18) ${percent}%)`;
+        videoProgress.setAttribute('aria-valuetext', `${formatVideoTime(current)} / ${formatVideoTime(duration)}`);
+      };
+      videoPlayBtn.addEventListener('click', () => {
+        if (tutorialVideo.paused || tutorialVideo.ended) {
+          tutorialVideo.play().catch(() => {});
+        } else {
+          tutorialVideo.pause();
+        }
+      });
+      tutorialVideo.addEventListener('click', () => {
+        if (tutorialVideo.paused || tutorialVideo.ended) tutorialVideo.play().catch(() => {});
+        else tutorialVideo.pause();
+      });
+      videoFullscreenBtn.addEventListener('click', async () => {
+        try {
+          if (document.fullscreenElement || document.webkitFullscreenElement) {
+            if (document.exitFullscreen) await document.exitFullscreen();
+            else if (document.webkitExitFullscreen) document.webkitExitFullscreen();
+          } else if (videoShell.requestFullscreen) {
+            await videoShell.requestFullscreen();
+          } else if (videoShell.webkitRequestFullscreen) {
+            videoShell.webkitRequestFullscreen();
+          } else if (tutorialVideo.webkitEnterFullscreen) {
+            tutorialVideo.webkitEnterFullscreen();
+          }
+        } catch (_) {}
+      });
+      ['play', 'pause', 'ended'].forEach(eventName => tutorialVideo.addEventListener(eventName, updatePlayButton));
+      ['fullscreenchange', 'webkitfullscreenchange'].forEach(eventName => document.addEventListener(eventName, updateFullscreenButton));
+      ['loadedmetadata', 'durationchange', 'timeupdate', 'progress', 'ended'].forEach(eventName => tutorialVideo.addEventListener(eventName, updateVideoProgress));
+      videoProgress.addEventListener('input', () => {
+        if (Number.isFinite(tutorialVideo.duration) && tutorialVideo.duration > 0) tutorialVideo.currentTime = Number(videoProgress.value) / 100 * tutorialVideo.duration;
+        updateVideoProgress();
+      });
+      updatePlayButton();
+      updateFullscreenButton();
+      updateVideoProgress();
 
       const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
       const reveals = document.querySelectorAll('.reveal');
