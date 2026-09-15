@@ -4,7 +4,6 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>即云API（DreaYunAPI）｜大模型API中转站与AI接口聚合平台</title>
-  <link rel="icon" href="https://image.zhongzhuan.chat/2026/09/b2b80378c408.png" type="image/png">
   <meta name="description" content="即云API（DreaYunAPI），又称即云AI、即云，是面向开发者与企业的大模型API中转站和AI接口聚合平台，提供统一入口、OpenAI兼容接口与清晰的模型接入体验。">
   <meta name="keywords" content="即云API,即云AI,即云,DreaYunAPI,大模型API,API中转站,API中转,AI接口聚合,OpenAI兼容接口,多模型API,AI开发平台,GPT API,Claude API,Gemini API,AI视频API">
   <meta name="robots" content="index,follow,max-image-preview:large,max-snippet:-1,max-video-preview:-1">
@@ -89,6 +88,9 @@
     .dy-nav-links a { transition: color .25s ease; }
     .dy-nav-links a:hover { color: var(--text); }
     .dy-nav-actions { display: flex; align-items: center; gap: 8px; }
+    .dy-lang-btn { display: inline-flex; align-items: center; justify-content: center; min-width: 48px; height: 40px; padding: 0 10px; color: var(--muted); border: 1px solid var(--line); border-radius: 13px; background: rgba(255,255,255,.045); font-size: 11px; font-weight: 800; letter-spacing: .08em; cursor: pointer; transition: .25s ease; }
+    .dy-lang-btn:hover { color: var(--text); border-color: rgba(120,231,255,.5); transform: translateY(-2px); }
+    .dy-lang-btn:focus-visible { outline: 0; box-shadow: 0 0 0 3px rgba(120,231,255,.22); }
     .dy-icon-btn, .dy-menu-btn { display: grid; place-items: center; width: 40px; height: 40px; color: var(--muted); border: 1px solid var(--line); border-radius: 13px; background: rgba(255,255,255,.045); cursor: pointer; transition: .25s ease; }
     .dy-icon-btn:hover, .dy-menu-btn:hover { color: var(--text); border-color: rgba(120, 231, 255, .5); transform: translateY(-2px); }
     .dy-icon-btn svg, .dy-menu-btn svg { width: 18px; height: 18px; }
@@ -392,6 +394,7 @@
             <a href="https://api.dreayun.com/pricing">模型与价格</a>
           </div>
           <div class="dy-nav-actions">
+            <button class="dy-lang-btn" id="dyLanguage" type="button" aria-label="切换语言" title="切换语言">EN</button>
             <button class="dy-icon-btn" id="dyTheme" type="button" aria-label="切换明暗主题" title="切换明暗主题"><svg id="dyThemeIcon" viewBox="0 0 24 24" fill="none"><path d="M20.5 15.2A8.5 8.5 0 0 1 8.8 3.5 8.6 8.6 0 1 0 20.5 15.2Z" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/></svg></button>
             <button class="dy-menu-btn" id="dyMenu" type="button" aria-label="打开菜单" aria-expanded="false"><svg viewBox="0 0 24 24" fill="none"><path d="M4 7h16M4 12h16M4 17h16" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"/></svg></button>
             <a class="dy-btn dy-btn-primary dy-nav-cta" href="https://api.dreayun.com/register?aff=05yj">进入 API 控制台 <span aria-hidden="true">↗</span></a>
@@ -481,25 +484,70 @@ response = client.chat.completions.create(
       updateThemeIcon();
       themeBtn.addEventListener('click', () => { body.classList.toggle('light'); localStorage.setItem('dreayun-theme', body.classList.contains('light') ? 'light' : 'dark'); updateThemeIcon(); });
 
+
+      const languageBtn = document.getElementById('dyLanguage');
+      const zhToEn = {"平台能力":"Platform","快速接入":"Quick start","如何接入 Codex":"How to use Codex","常见问题":"FAQ","模型与价格":"Models & pricing","进入 API 控制台":"Open API Console","统一入口，连接多种AI能力":"One gateway for every AI capability","让每一次想象，":"Turn every idea","都拥有一条 API。":"into an API.","，又称即云AI、即云，是面向个人开发者与企业团队的":"— also known as DreaYunAI or Jiyun — gives individual developers and teams a","大模型 API 中转站":"large-model API gateway","和":"and","AI 接口聚合平台":"AI interface aggregation platform","。用一个清晰、统一的入口，把模型能力自然带进你的产品。":". Bring model capabilities into your products through one clear, unified entry point.","免费开始接入":"Start for free","查看接入方式":"See how it works","为真实项目准备的 AI 接入路径，具体服务能力以官方文档为准":"An AI integration path built for real projects. See the official documentation for current capabilities.","文本模型":"Text models","视觉理解":"Vision","图像生成":"Image generation","视频能力":"Video","模型接入层正在发光":"Model gateway online","即云AI":"DreaYunAI","大模型API":"Large-model API","API中转站":"API gateway","AI接口聚合":"AI aggregation","OpenAI兼容接口":"OpenAI-compatible API","把复杂的模型世界，":"Turn the complex model world","整理成一个入口。":"into one gateway.","从第一次调试，到产品真正上线，即云API将常见的大模型调用流程收拢到一个更清晰的工作台中。你可以按项目需要选择模型，并以熟悉的方式完成接入。":"From the first test to production, DreaYunAPI brings common large-model workflows into a clearer workspace. Choose models for each project and integrate them with familiar tools.","统一的 大模型 API 入口":"A unified large-model API gateway","统一的大模型 API 入口":"A unified large-model API gateway","通过统一的 API 服务入口管理调用流程，减少在不同模型服务之间反复切换的成本，让开发者更专注于产品体验。":"Manage calls through one API gateway, reduce the cost of switching between model services, and stay focused on product experience.","OpenAI 兼容接入方式":"OpenAI-compatible integration","通常只需调整 API Key、Base URL 与模型名称，即可将已有 SDK 调用习惯迁移到即云API，具体参数以官方文档为准。":"Usually, you only need to update the API key, base URL, and model name to move an existing SDK workflow to DreaYunAPI. Check the official documentation for current parameters.","从灵感到上线，节奏更快":"From idea to launch, faster","适合个人原型、自动化工具、内容应用以及团队项目，把模型调用能力融入你的工作流与业务系统。":"Ideal for prototypes, automation, content products, and team projects—bring model calls into your workflow and business systems.","熟悉的代码，":"Familiar code,","更快的答案。":"faster answers.","访问":"Visit","注册并创建 API Key，再按照官方文档配置 Base URL 与模型名称，即可开始探索。":", create an API key, configure the base URL and model name according to the official docs, and start exploring.","让接入这件事，":"Make integration","回到它本来的简单。":"simple again.","即云API将大模型 API 中转、AI 接口聚合与统一密钥管理放进一个清晰的使用路径。无论你在做 AI 应用、智能客服、内容工具还是内部自动化，都可以从一个入口开始。":"DreaYunAPI puts large-model routing, AI aggregation, and unified key management into one clear workflow. Whether you build AI apps, support agents, content tools, or internal automation, you can start from one gateway.","统一 API Base URL":"Unified API base URL","OpenAI 兼容调用":"OpenAI-compatible calls","多类 AI 能力接入":"Multiple AI capabilities","个人与企业场景":"For individuals and teams","复制代码":"Copy code","你好，即云API！":"Hello, DreaYunAPI!","# 请以官方文档与控制台显示为准":"# Refer to the official docs and console","注册即云API账号":"Create a DreaYunAPI account","创建并管理 API Key":"Create and manage API keys","选择模型与调用方式":"Choose a model and call method","把 AI 能力接入产品":"Bring AI into your product","开始之前，":"Before you start,","先回答几个问题。":"here are a few answers.","以下内容帮助搜索“即云API”“即云AI”“即云”“DreaYunAPI”以及“大模型API”“API中转站”的用户快速了解平台。":"This section helps people searching for “DreaYunAPI”, “DreaYunAI”, “Jiyun”, “large-model API”, or “API gateway” quickly understand the platform.","即云API、即云AI、即云和 DreaYunAPI 是什么关系？":"What are DreaYunAPI, DreaYunAI, Jiyun, and DreaYunAPI?","即云API是平台中文品牌，用户也会使用即云AI、即云或 DreaYunAPI 来称呼该平台。API服务入口为":"DreaYunAPI is the platform’s Chinese brand. Users may also call it DreaYunAI, Jiyun, or DreaYunAPI. The API entry point is","。":" .","即云API可以做什么？":"What can DreaYunAPI do?","即云API提供大模型API中转与AI接口聚合能力，通过统一入口帮助开发者接入文本、视觉、图像和视频等AI能力，具体可用模型以平台当前页面与文档为准。":"DreaYunAPI provides large-model routing and AI aggregation, helping developers connect text, vision, image, and video capabilities through one gateway. See the current platform and documentation for available models.","是否支持 OpenAI 兼容接口？":"Does it support OpenAI-compatible APIs?","平台提供 OpenAI 兼容调用方式。通常需要配置 API Key、Base URL 与模型名称，具体请求格式、模型列表和限制请以官方文档为准。":"The platform provides an OpenAI-compatible calling method. You typically need an API key, base URL, and model name; see the official documentation for request formats, models, and limits.","个人开发者可以使用吗？":"Can individual developers use it?","可以。即云API适合个人原型、自动化工具、内容应用，也适合团队和企业统一管理大模型接口与项目调用。":"Yes. DreaYunAPI works for personal prototypes, automation, and content apps, as well as unified model access for teams and enterprises.","现在，就让想法开始运行。":"Now, make your idea run.","进入即云API，注册账号，选择你的第一种模型能力。把下一次灵感，变成真正可调用的 API。":"Enter DreaYunAPI, create an account, and choose your first model capability. Turn your next idea into a real, callable API.","进入即云API":"Enter DreaYunAPI","© 2026 即云API（DreaYunAPI） · 大模型API中转站与AI接口聚合平台":"© 2026 DreaYunAPI · Large-model API gateway and AI aggregation platform","Codex 接入":"Codex integration","API入口":"API entry","客户支持":"Support","\"你好，即云API！\"":"\"Hello, DreaYunAPI!\""};
+      const enToZh = Object.fromEntries(Object.entries(zhToEn).map(([zh, en]) => [en, zh]));
+      let currentLanguage = localStorage.getItem('dreayun-language') === 'zh' ? 'zh' : 'en';
+      const languageMeta = {
+        zh: { title: '即云API（DreaYunAPI）｜大模型API中转站与AI接口聚合平台', description: '即云API（DreaYunAPI），又称即云AI、即云，是面向个人开发者与企业的大模型API中转站和AI接口聚合平台，提供统一入口、OpenAI兼容接口与清晰的模型接入体验。' },
+        en: { title: 'DreaYunAPI | Large-Model API Gateway & AI Aggregation Platform', description: 'DreaYunAPI, also known as DreaYunAI or Jiyun, is a large-model API gateway and AI aggregation platform for developers and teams, with a unified OpenAI-compatible integration experience.' }
+      };
+      const translateTextNodes = language => {
+        const dictionary = language === 'en' ? zhToEn : enToZh;
+        const walker = document.createTreeWalker(document.body, NodeFilter.SHOW_TEXT);
+        const nodes = []; let node;
+        while (node = walker.nextNode()) { if (node.parentElement && !['SCRIPT', 'STYLE'].includes(node.parentElement.tagName)) nodes.push(node); }
+        nodes.forEach(textNode => { const raw = textNode.nodeValue; const trimmed = raw.trim(); if (dictionary[trimmed]) textNode.nodeValue = raw.replace(trimmed, dictionary[trimmed]); });
+      };
+      const updateLanguage = () => {
+        translateTextNodes(currentLanguage);
+        const isEnglish = currentLanguage === 'en';
+        document.documentElement.lang = isEnglish ? 'en' : 'zh-CN';
+        document.title = languageMeta[currentLanguage].title;
+        document.querySelector('meta[name="description"]').content = languageMeta[currentLanguage].description;
+        document.querySelector('meta[property="og:title"]').content = languageMeta[currentLanguage].title;
+        document.querySelector('meta[property="og:description"]').content = isEnglish ? 'One gateway connects multiple AI capabilities. DreaYunAPI gives developers and teams a clear, unified model integration experience.' : '一个入口连接多种AI能力。即云API为个人开发者与企业提供清晰、统一的模型接入体验。';
+        languageBtn.textContent = isEnglish ? '中' : 'EN';
+        languageBtn.setAttribute('aria-label', isEnglish ? '切换到中文' : 'Switch to English');
+        languageBtn.title = isEnglish ? '切换到中文' : 'Switch to English';
+        document.querySelector('nav.dy-nav').setAttribute('aria-label', isEnglish ? 'Main navigation' : '主导航');
+        document.querySelector('.dy-brand').setAttribute('aria-label', isEnglish ? 'DreaYunAPI home' : '即云API首页');
+        document.querySelector('.dy-brand-copy strong').textContent = isEnglish ? 'DreaYunAPI' : '即云API';
+        document.querySelector('.dy-hero-lede strong').textContent = isEnglish ? 'DreaYunAPI' : '即云API（DreaYunAPI）';
+        document.querySelector('.dy-caption strong').textContent = isEnglish ? 'DreaYunAPI' : '即云API';
+        document.querySelectorAll('.dy-marquee-item').forEach(item => item.childNodes.forEach(node => { if (node.nodeType === 3 && node.nodeValue.trim() === '即云API') node.nodeValue = node.nodeValue.replace('即云API', isEnglish ? 'DreaYunAPI' : '即云API'); }));
+        document.getElementById('dyTheme').setAttribute('aria-label', isEnglish ? 'Toggle light and dark theme' : '切换明暗主题');
+        document.getElementById('dyTheme').title = isEnglish ? 'Toggle theme' : '切换明暗主题';
+        document.getElementById('dyMenu').setAttribute('aria-label', isEnglish ? 'Open menu' : '打开菜单');
+        document.querySelector('.dy-stats').setAttribute('aria-label', isEnglish ? 'DreaYunAPI workflow' : '即云API使用路径');
+        updateDynamicText();
+      };
+      languageBtn.addEventListener('click', () => { currentLanguage = currentLanguage === 'en' ? 'zh' : 'en'; localStorage.setItem('dreayun-language', currentLanguage); updateLanguage(); });
+
       const menuBtn = document.getElementById('dyMenu');
       const navLinks = document.getElementById('dyNavLinks');
       menuBtn.addEventListener('click', () => { const open = navLinks.classList.toggle('open'); menuBtn.setAttribute('aria-expanded', String(open)); });
       navLinks.querySelectorAll('a').forEach(link => link.addEventListener('click', () => { navLinks.classList.remove('open'); menuBtn.setAttribute('aria-expanded', 'false'); }));
 
       const status = document.getElementById('dyStatus');
-      const statuses = ['统一入口，连接多种AI能力', 'OpenAI兼容，熟悉方式快速接入', '即云AI，让模型调用更清晰'];
       const caption = document.getElementById('dyCaption');
-      const captions = ['模型接入层正在发光', '统一入口准备就绪', '让想法开始运行'];
       const signal = document.getElementById('dySignal');
-      const signals = ['BUILD · TEST · SHIP', 'IDEA · API · PRODUCT', 'DreaYunAPI · READY'];
+      const statusZh = ['统一入口，连接多种AI能力', 'OpenAI兼容，熟悉方式快速接入', '即云AI，让模型调用更清晰'];
+      const statusEn = ['One gateway for every AI capability', 'OpenAI-compatible, familiar integration', 'DreaYunAI makes model calls clear'];
+      const captionZh = ['模型接入层正在发光', '统一入口准备就绪', '让想法开始运行'];
+      const captionEn = ['Model gateway online', 'Unified entry ready', 'Make ideas run'];
+      const signalZh = ['BUILD · TEST · SHIP', 'IDEA · API · PRODUCT', 'DreaYunAPI · READY'];
+      const signalEn = ['BUILD · TEST · SHIP', 'IDEA · API · PRODUCT', 'DreaYunAPI · READY'];
       let index = 0;
-      if (!reduceMotion) {
-        setInterval(() => { index = (index + 1) % statuses.length; status.textContent = statuses[index]; caption.textContent = captions[index]; signal.textContent = signals[index]; }, 3200);
-      }
+      const updateDynamicText = () => { const statuses = currentLanguage === 'en' ? statusEn : statusZh; const captions = currentLanguage === 'en' ? captionEn : captionZh; const signals = currentLanguage === 'en' ? signalEn : signalZh; status.textContent = statuses[index]; caption.textContent = captions[index]; signal.textContent = signals[index]; };
+      if (!reduceMotion) setInterval(() => { index = (index + 1) % statusZh.length; updateDynamicText(); }, 3200);
+
+      updateLanguage();
 
       const copyBtn = document.getElementById('dyCopy');
       const code = document.getElementById('dyCode');
-      copyBtn.addEventListener('click', async () => { try { await navigator.clipboard.writeText(code.innerText); copyBtn.querySelector('span').textContent = '已复制'; setTimeout(() => copyBtn.querySelector('span').textContent = '复制代码', 1600); } catch { copyBtn.querySelector('span').textContent = '请手动复制'; setTimeout(() => copyBtn.querySelector('span').textContent = '复制代码', 1600); } });
+      copyBtn.addEventListener('click', async () => { const copied = currentLanguage === 'en' ? 'Copied' : '已复制'; const manual = currentLanguage === 'en' ? 'Copy manually' : '请手动复制'; const copyLabel = currentLanguage === 'en' ? 'Copy code' : '复制代码'; try { await navigator.clipboard.writeText(code.innerText); copyBtn.querySelector('span').textContent = copied; setTimeout(() => copyBtn.querySelector('span').textContent = copyLabel, 1600); } catch { copyBtn.querySelector('span').textContent = manual; setTimeout(() => copyBtn.querySelector('span').textContent = copyLabel, 1600); } });
 
       const reveal = document.querySelectorAll('.dy-reveal');
       if ('IntersectionObserver' in window && !reduceMotion) { const observer = new IntersectionObserver((entries, obs) => { entries.forEach(entry => { if (entry.isIntersecting) { entry.target.classList.add('visible'); obs.unobserve(entry.target); } }); }, { threshold: .12 }); reveal.forEach(item => observer.observe(item)); } else reveal.forEach(item => item.classList.add('visible'));
@@ -519,9 +567,3 @@ response = client.chat.completions.create(
   </script>
 </body>
 </html>
-
-
-
-
-
-
