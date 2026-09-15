@@ -115,6 +115,9 @@
     .nav-link, .theme-btn { display: inline-flex; align-items: center; justify-content: center; height: 40px; border: 1px solid var(--line); border-radius: 13px; background: rgba(255,255,255,.04); transition: .25s ease; }
     .nav-link { padding: 0 15px; color: var(--muted); font-size: 13px; }
     .nav-link:hover, .theme-btn:hover { color: var(--text); border-color: rgba(119,231,255,.48); transform: translateY(-2px); }
+    .lang-btn { display: inline-grid; place-items: center; min-width: 44px; height: 40px; padding: 0 10px; color: var(--muted); border: 1px solid var(--line); border-radius: 12px; background: rgba(255,255,255,.05); font-size: 11px; font-weight: 800; letter-spacing: .08em; cursor: pointer; transition: .25s ease; }
+    .lang-btn:hover { color: var(--text); border-color: rgba(119,231,255,.5); transform: translateY(-2px); }
+    .lang-btn:focus-visible { outline: 0; box-shadow: 0 0 0 3px rgba(119,231,255,.24); }
     .theme-btn { width: 40px; cursor: pointer; }
     .theme-btn svg { width: 18px; height: 18px; }
     .hero { position: relative; display: grid; grid-template-columns: 1.04fr .96fr; align-items: center; gap: 64px; min-height: 690px; padding: 92px 0 68px; }
@@ -142,7 +145,7 @@
     .visual-card img { position: relative; z-index: 2; width: 150px; height: 150px; border-radius: 34px; box-shadow: 0 20px 46px rgba(0,0,0,.26); }
     .visual-card span { position: absolute; z-index: 3; bottom: 32px; color: var(--muted); font-size: 12px; letter-spacing: .18em; text-transform: uppercase; }
     .section { padding: 74px 0; }
-    .video-panel { position: relative; overflow: hidden; padding: 0; border: 1px solid var(--line); border-radius: 30px; background: var(--panel); box-shadow: var(--shadow); backdrop-filter: blur(22px); }
+    .video-panel { position: relative; width: min(50%, 760px); margin-inline: auto; overflow: hidden; padding: 0; border: 1px solid var(--line); border-radius: 30px; background: var(--panel); box-shadow: var(--shadow); backdrop-filter: blur(22px); }
     .video-panel::before { content: ""; display: block; height: 3px; background: linear-gradient(90deg, var(--cyan), var(--violet), var(--pink)); opacity: .9; }
     .video-shell { position: relative; background: #030513; }
     .tutorial-video { display: block; width: 100%; max-height: 680px; aspect-ratio: 16 / 9; object-fit: contain; background: #030513; cursor: pointer; }
@@ -221,6 +224,7 @@
       .hero { grid-template-columns: 1fr; gap: 20px; padding-top: 78px; }
       .hero-visual { min-height: 430px; }
       .section-head, .config-panel { grid-template-columns: 1fr; }
+      .video-panel { width: min(72%, 760px); }
       .downloads { grid-template-columns: 1fr; }
       .cta { align-items: flex-start; flex-direction: column; }
     }
@@ -251,6 +255,7 @@
       .copy-btn { width: 100%; }
       .cta { padding: 28px 23px; border-radius: 25px; }
       .footer-inner { align-items: flex-start; flex-direction: column; }
+      .video-panel { width: 100%; }
       .video-caption { align-items: flex-start; flex-direction: column; padding: 16px 18px 19px; }
       .video-badge { align-self: flex-start; }
       .video-controls { gap: 8px; padding-inline: 12px; }
@@ -274,6 +279,7 @@
         <a class="nav-link guide" href="#tutorial">视频教程</a>
         <a class="nav-link guide" href="#guide">接入步骤</a>
         <a class="nav-link" href="./index.html">返回首页</a>
+        <button class="lang-btn" id="languageBtn" type="button" aria-label="切换语言" title="切换语言">EN</button>
         <button class="theme-btn" id="themeBtn" type="button" aria-label="切换明暗主题"><svg id="themeIcon" viewBox="0 0 24 24" fill="none" aria-hidden="true"></svg></button>
       </div>
     </nav></div>
@@ -344,12 +350,50 @@
       updateThemeIcon();
       themeBtn.addEventListener('click', () => { body.classList.toggle('light'); localStorage.setItem('dreayun-theme', body.classList.contains('light') ? 'light' : 'dark'); updateThemeIcon(); });
 
+
+      const languageBtn = document.getElementById('languageBtn');
+      const zhToEn = {"视频教程":"Video tutorial","接入步骤":"Integration steps","返回首页":"Back to home","DreaYunAPI × Codex":"DreaYunAPI × Codex","让 Codex":"Connect Codex","接入即云API":"to DreaYunAPI","从下载安装到服务配置，一页完成 Codex 接入准备。使用即云API统一管理 API Key 与模型入口，让你的编程工作流更清晰。":"Prepare your Codex integration in one place, from installation to service configuration. Manage API keys and model access through DreaYunAPI for a clearer coding workflow.","立即开始":"Get started","注册即云API":"Register with DreaYunAPI","先准备好两个工具。":"Prepare these two tools.","请根据设备与页面提示完成安装。下载按钮会打开对应的外部下载地址。":"Install both tools according to your device and the on-screen instructions. Each button opens its official download page.","下载并安装 Codex for Windows，安装完成后再继续进行服务配置。":"Download and install Codex for Windows, then continue with service configuration.","下载 Codex":"Download Codex","前往 CC Switch 下载页，选择与你的系统匹配的版本并完成安装。":"Visit the CC Switch download page, choose the version for your system, and install it.","前往 CC Switch 下载页":"Download CC Switch","跟着视频，":"Follow the video,","一步完成配置。":"and finish setup in one pass.","视频演示 Codex 与 CC Switch 的接入流程。播放器支持播放、暂停和全屏控制；下方蓝色进度条可拖动跳转到指定位置。":"This video demonstrates the Codex and CC Switch integration flow. Use the custom controls to play, pause, or enter fullscreen; drag the blue progress bar to seek.","当前浏览器不支持 HTML5 视频播放，请使用支持 MP4 的现代浏览器打开。":"Your browser does not support HTML5 video. Please use a modern browser that supports MP4.","即云API × Codex 接入教程":"DreaYunAPI × Codex integration tutorial","建议先准备好即云API Key，再按照视频中的步骤进行配置。":"Prepare your DreaYunAPI key first, then follow the steps in the video.","五步完成接入。":"Integrate in five steps.","不同版本的工具界面可能有所变化；模型名称和可用能力，请以即云API控制台当前展示为准。":"Tool interfaces may vary by version. Use the models and capabilities currently shown in the DreaYunAPI console.","下载并安装 Codex":"Download and install Codex","点击上方“下载 Codex”按钮，通过 Microsoft 安装地址完成安装。":"Click “Download Codex” above and complete installation through the Microsoft installer.","注册即云API并创建密钥":"Register with DreaYunAPI and create a key","前往":"Go to","即云API注册页":"DreaYunAPI registration","创建账号，然后在控制台生成仅供自己使用的 API Key。":"create an account, then generate an API key for your own use in the console.","安装 CC Switch":"Install CC Switch","从上方下载入口安装 CC Switch，并在应用中添加新的自定义服务商配置。":"Install CC Switch from the download link above, then add a new custom provider configuration in the app.","填写即云API配置":"Enter DreaYunAPI settings","填写下方 Base URL、你的 API Key，以及即云API控制台当前提供的模型名称。不要使用示例文字作为真实模型名。":"Enter the Base URL below, your API key, and a model name currently available in the DreaYunAPI console. Do not use the sample text as a real model name.","保存、切换并启动":"Save, switch, and launch","保存配置并切换到即云API服务商，然后启动 Codex。若无法调用，请优先核对余额、密钥、服务地址与模型名称。":"Save the configuration, switch to the DreaYunAPI provider, and launch Codex. If calls fail, check your balance, key, service URL, and model name first.","即云API Base URL":"DreaYunAPI base URL","复制地址":"Copy URL","模型名称请在即云API控制台中查看并复制；API Key 请填写你自己创建的密钥。":"Find and copy the model name in the DreaYunAPI console. Use the key you created yourself.","安全提醒":"Security reminder","不要公开 API Key。":"Never expose your API key.","密钥应只保存在你自己的设备中，不要写入公开网页、截图、聊天记录或提交到 GitHub。CC Switch 为第三方工具，并非即云API或 OpenAI 官方产品。":"Keep your key only on your own device. Do not put it on public webpages, screenshots, chat logs, or GitHub. CC Switch is a third-party tool, not an official DreaYunAPI or OpenAI product.","准备好，就从第一枚 API Key 开始。":"Ready? Start with your first API key.","注册即云API，查看当前模型列表与接口说明，然后完成你的 Codex 配置。":"Register with DreaYunAPI, review the current model list and API docs, and complete your Codex configuration.","© 2026 即云API（DreaYunAPI） · Codex 接入指南":"© 2026 DreaYunAPI · Codex integration guide","API入口":"API entry","客户支持":"Support","免费开始接入":"Start for free"};
+      const enToZh = Object.fromEntries(Object.entries(zhToEn).map(([zh, en]) => [en, zh]));
+      let currentLanguage = localStorage.getItem('dreayun-language') === 'zh' ? 'zh' : 'en';
+      const languageMeta = {
+        zh: { title: '如何接入 Codex｜即云API DreaYunAPI 配置教程', description: '即云API Codex 接入教程：下载 Codex 与 CC Switch，创建即云API Key，配置 Base URL，快速完成大模型编程助手接入。' },
+        en: { title: 'How to Connect Codex | DreaYunAPI Setup Guide', description: 'DreaYunAPI Codex integration guide: download Codex and CC Switch, create a DreaYunAPI key, configure the base URL, and connect your AI coding workflow.' }
+      };
+      const translateTextNodes = language => {
+        const dictionary = language === 'en' ? zhToEn : enToZh;
+        const walker = document.createTreeWalker(document.body, NodeFilter.SHOW_TEXT);
+        const nodes = []; let node;
+        while (node = walker.nextNode()) { if (node.parentElement && !['SCRIPT', 'STYLE'].includes(node.parentElement.tagName)) nodes.push(node); }
+        nodes.forEach(textNode => { const raw = textNode.nodeValue; const trimmed = raw.trim(); if (dictionary[trimmed]) textNode.nodeValue = raw.replace(trimmed, dictionary[trimmed]); });
+      };
+      const updateLanguage = () => {
+        translateTextNodes(currentLanguage);
+        const isEnglish = currentLanguage === 'en';
+        document.documentElement.lang = isEnglish ? 'en' : 'zh-CN';
+        document.title = languageMeta[currentLanguage].title;
+        document.querySelector('meta[name="description"]').content = languageMeta[currentLanguage].description;
+        document.querySelector('meta[property="og:title"]').content = isEnglish ? 'How to Connect Codex | DreaYunAPI Setup Guide' : '如何接入 Codex｜即云API配置教程';
+        document.querySelector('meta[property="og:description"]').content = isEnglish ? 'Download Codex and CC Switch, configure DreaYunAPI, and start a smoother AI coding workflow.' : '下载 Codex 与 CC Switch，按照步骤配置即云API，开启更顺畅的大模型编程体验。';
+        languageBtn.textContent = isEnglish ? '中' : 'EN';
+        languageBtn.setAttribute('aria-label', isEnglish ? '切换到中文' : 'Switch to English');
+        languageBtn.title = isEnglish ? '切换到中文' : 'Switch to English';
+        document.querySelector('nav').setAttribute('aria-label', isEnglish ? 'Page navigation' : '页面导航');
+        document.querySelector('.brand').setAttribute('aria-label', isEnglish ? 'Back to DreaYunAPI home' : '返回即云API首页');
+        document.querySelector('.brand-copy strong').textContent = isEnglish ? 'DreaYunAPI' : '即云API';
+        document.getElementById('themeBtn').setAttribute('aria-label', isEnglish ? 'Toggle light and dark theme' : '切换明暗主题');
+        document.getElementById('videoShell').setAttribute('aria-label', isEnglish ? 'Video player' : '视频播放器');
+        document.getElementById('videoPlayBtn').setAttribute('aria-label', tutorialVideo.paused ? (isEnglish ? 'Play video' : '播放视频') : (isEnglish ? 'Pause video' : '暂停视频'));
+        document.getElementById('videoFullscreenBtn').setAttribute('aria-label', isEnglish ? 'Fullscreen playback' : '全屏播放');
+        document.getElementById('videoProgress').setAttribute('aria-label', isEnglish ? 'Playback progress' : '播放进度');
+      };
+      languageBtn.addEventListener('click', () => { currentLanguage = currentLanguage === 'en' ? 'zh' : 'en'; localStorage.setItem('dreayun-language', currentLanguage); updateLanguage(); });
+
       const copyBtn = document.getElementById('copyBtn');
       copyBtn.addEventListener('click', async () => {
         const value = document.getElementById('baseUrl').textContent;
-        try { await navigator.clipboard.writeText(value); copyBtn.textContent = '已复制'; }
-        catch (_) { copyBtn.textContent = '请手动复制'; }
-        setTimeout(() => { copyBtn.textContent = '复制地址'; }, 1800);
+        try { await navigator.clipboard.writeText(value); copyBtn.textContent = currentLanguage === 'en' ? 'Copied' : '已复制'; }
+        catch (_) { copyBtn.textContent = currentLanguage === 'en' ? 'Copy manually' : '请手动复制'; }
+        setTimeout(() => { copyBtn.textContent = currentLanguage === 'en' ? 'Copy URL' : '复制地址'; }, 1800);
       });
 
       const tutorialVideo = document.getElementById('tutorialVideo');
@@ -361,6 +405,8 @@
       const videoDuration = document.getElementById('videoDuration');
       const playIcon = videoPlayBtn.querySelector('.play-icon');
       const pauseIcon = videoPlayBtn.querySelector('.pause-icon');
+      updateLanguage();
+
       const formatVideoTime = seconds => {
         if (!Number.isFinite(seconds) || seconds < 0) return '00:00';
         const total = Math.floor(seconds);
